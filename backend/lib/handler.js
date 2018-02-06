@@ -4,6 +4,7 @@ import { mergeResolvers, mergeTypes } from 'merge-graphql-schemas';
 import foldType from './types/fold'
 import foldResolver from './resolvers/fold'
 
+// https://7r4nx53sz1.execute-api.us-east-1.amazonaws.com/dev/graphql
 
 // const typeDefs = mergeTypes([foldType]);
 // const resolvers = mergeResolvers([foldResolver]);
