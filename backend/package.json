@@ -1,0 +1,25 @@
+{
+  "name": "fold-backend",
+  "version": "1.0.0",
+  "description": "Serverless GraphQL backend for Fold.im",
+  "main": "index.js",
+  "author": "Kane",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-lambda": "^1.3.2",
+    "aws-sdk": "^2.189.0",
+    "graphql": "^0.12.3",
+    "graphql-tools": "^2.20.0",
+    "merge-graphql-schemas": "^1.4.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "imports-loader": "^0.7.1",
+    "serverless-webpack": "^4.2.0",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
+  }
+}
