@@ -19,6 +19,12 @@ const schema = makeExecutableSchema({
   resolvers: foldResolver,
 })
 
-exports.graphql = graphqlLambda({
-  schema
-})
+exports.graphql = function(event, context, callback) {
+  const callbackFilter = function(error, output) {
+    output.headers['Access-Control-Allow-Origin'] = '*';
+    callback(error, output);
+  };
+  const handler = graphqlLambda({ schema });
+
+  return handler(event, context, callbackFilter);
+};
