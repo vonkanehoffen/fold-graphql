@@ -2,17 +2,9 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import AddFold from './AddFold'
 
-class FoldsList extends Component {
-
-  static defaultProps = {}
-  static propTypes = {}
-  state = {}
-
-  render() {
-    const { data: { loading, error, folds }} = this.props
-
-    // return <pre>{JSON.stringify(this.props, null, 2)}</pre>
+const FoldsList = ({ data: { loading, error, folds }}) => {
     if (loading) {
       return <p>Loading ...</p>;
     }
@@ -28,14 +20,13 @@ class FoldsList extends Component {
             <pre>{JSON.stringify(fold, null, 2)}</pre>
           </div>)
         )}
+        <AddFold/>
       </div>
     )
-  }
-
 }
 
-const foldsListQuery = gql`
-  query FoldsListQuery {
+export const foldsListQuery = gql`
+  query foldsListQuery {
     folds {
       id
       title
