@@ -10,11 +10,12 @@ import { ApolloProvider, graphql } from 'react-apollo'
 import { toIdValue } from 'apollo-utilities'
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import NotFound from './components/NotFound'
+import NotFound from './containers/NotFound'
 import logo from './logo.svg';
 import './App.css';
-import FoldsList from "./components/FoldsList"
-import FoldSingle from "./components/FoldSingle"
+import FoldsList from "./containers/FoldsList"
+import FoldSingle from "./containers/FoldSingle"
+import FoldEdit from './containers/FoldEdit'
 
 // function dataIdFromObject (result) {
 //   if (result.__typename) {

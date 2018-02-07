@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import AddFold from './AddFold'
+import FoldCard from "../components/FoldCard"
 
 const FoldsList = ({ data: { loading, error, folds }}) => {
     if (loading) {
@@ -15,11 +16,7 @@ const FoldsList = ({ data: { loading, error, folds }}) => {
     return (
       <div>
         <h1>FoldsList</h1>
-        {folds.map(fold =>
-          (<div key={fold.id} className={'fold ' + (fold.id < 0 ? 'optimistic' : '')}>
-            <pre>{JSON.stringify(fold, null, 2)}</pre>
-          </div>)
-        )}
+        {folds.map(fold => <FoldCard fold={fold} remove={() => false} key={fold.id}/>)}
         <AddFold/>
       </div>
     )
