@@ -19,7 +19,6 @@ const FoldCard = ({fold}) => {
           <i className="material-icons">link</i>
         </Link>
       </h3>
-      <Link to={`/edit/${fold.id}`}>Edit</Link>
       <FoldRemove foldId={fold.id}/>
     </Card>
   )
