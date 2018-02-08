@@ -6,12 +6,13 @@ import FoldRemove from '../containers/FoldRemove'
 
 const Card = styled.div`
   background:palevioletred;
+  opacity: ${props => props.optimistic ? 0.5 : 1};
   margin: 1rem;
   padding: 1rem;
 `
 const FoldCard = ({fold}) => {
   return (
-    <Card>
+    <Card optimistic={fold.id < 0}>
       <h3>
         {fold.title}
         <Link to={`/fold/${fold.id}`}>

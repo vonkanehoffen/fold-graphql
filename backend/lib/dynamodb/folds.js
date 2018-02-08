@@ -9,7 +9,9 @@ export function getFolds() {
     AttributesToGet: [
       'id',
       'title',
-      'address'
+      'address',
+      'createdAt',
+      'updatedAt',
     ],
   };
 
@@ -28,12 +30,15 @@ export function getFoldById(id) {
 }
 
 export function createFold(args) {
+  const timestamp = new Date().getTime()
   const params = {
     TableName,
     Item: {
       id: uuid(),
       title: args.title,
       address: args.address,
+      createdAt: timestamp,
+      updatedAt: timestamp,
     },
   };
 
@@ -49,8 +54,9 @@ export function updateFold(args) {
     ExpressionAttributeValues: {
       ':title': args.title,
       ':address': args.address,
+      ':updatedAt': new Date().getTime(),
     },
-    UpdateExpression: 'SET title = :title, address = :address',
+    UpdateExpression: 'SET title = :title, address = :address, updatedAt = :updatedAt',
     ReturnValues: 'ALL_NEW',
   };
 

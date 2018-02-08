@@ -3,6 +3,8 @@ export default `
     id: ID!
     title: String
     address: String
+    createdAt: String
+    updatedAt: String
   }
   
   type Query {

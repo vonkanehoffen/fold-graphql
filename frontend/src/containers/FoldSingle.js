@@ -30,6 +30,8 @@ const singleFoldQuery = gql`
       id
       title
       address
+      createdAt
+      updatedAt
     }
   }
 `

@@ -26,6 +26,8 @@ class AddFold extends Component {
         createFold: {
           ...this.state,
           id: Math.round(Math.random() * -1000000),
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
           __typename: 'Fold',
         },
       },
@@ -70,6 +72,8 @@ const addFoldMutation = gql`
       id
       title
       address
+      createdAt
+      updatedAt
     }
   }
 `

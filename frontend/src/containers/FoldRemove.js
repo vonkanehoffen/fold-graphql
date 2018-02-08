@@ -13,9 +13,7 @@ const FoldRemove = ({ foldId, mutate }) => {
       },
       update: (store, { data: { deleteFold }}) => {
         let data = store.readQuery({ query: foldsListQuery })
-        console.log('before', data.folds.length)
         data.folds = data.folds.filter(f => f.id !== deleteFold.id)
-        console.log('after', data.folds.length)
         store.writeQuery({ query: foldsListQuery, data})
       }
     })
