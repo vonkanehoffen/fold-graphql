@@ -2,13 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import FoldRemove from '../containers/FoldRemove'
 
 const Card = styled.div`
   background:palevioletred;
   margin: 1rem;
   padding: 1rem;
 `
-const FoldCard = ({fold, remove}) => {
+const FoldCard = ({fold}) => {
   return (
     <Card>
       <h3>
@@ -18,14 +19,13 @@ const FoldCard = ({fold, remove}) => {
         </Link>
       </h3>
       <Link to={`/edit/${fold.id}`}>Edit</Link>
-      <button onClick={remove}>Remove</button>
+      <FoldRemove foldId={fold.id}/>
     </Card>
   )
 }
 
 FoldCard.propTypes = {
   fold: PropTypes.object.isRequired,
-  remove: PropTypes.func.isRequired,
 }
 
 export default FoldCard

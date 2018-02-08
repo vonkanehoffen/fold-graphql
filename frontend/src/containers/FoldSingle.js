@@ -16,7 +16,7 @@ const FoldSingle = ({ data: { loading, error, fold }}) => {
   return (
     <div>
       <h1>FoldSingle</h1>
-      <FoldCard fold={fold} remove={() => false}/>
+      <FoldCard fold={fold}/>
       <FoldEdit fold={fold}/>
     </div>
   )

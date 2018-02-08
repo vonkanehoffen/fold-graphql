@@ -39,7 +39,9 @@ import FoldEdit from './containers/FoldEdit'
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'https://7r4nx53sz1.execute-api.us-east-1.amazonaws.com/dev/graphql' }),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    // dataIdFromObject: o => o.id
+  }),
 });
 
 class App extends Component {

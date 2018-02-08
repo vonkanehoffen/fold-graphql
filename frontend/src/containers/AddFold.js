@@ -29,6 +29,7 @@ class AddFold extends Component {
           __typename: 'Fold',
         },
       },
+      // https://www.apollographql.com/docs/react/features/cache-updates.html
       update: (store, { data: { createFold } }) => {
         const data = store.readQuery({ query: foldsListQuery });
         data.folds.push(createFold);
