@@ -10,6 +10,13 @@ const Card = styled.div`
   margin: 1rem;
   padding: 1rem;
 `
+
+const Tag = styled.div`
+  background:yellow;
+  padding: .2rem;
+  display: inline-block;
+  margin: .2rem;
+`
 const FoldCard = ({fold}) => {
   return (
     <Card optimistic={fold.id < 0}>
@@ -18,6 +25,9 @@ const FoldCard = ({fold}) => {
         <Link to={`/fold/${fold.id}`}>
           <i className="material-icons">link</i>
         </Link>
+        <div>
+          Tags: {fold.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
+        </div>
       </h3>
       <FoldRemove foldId={fold.id}/>
     </Card>

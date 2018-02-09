@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import ChipInput from 'material-ui-chip-input'
 
 class FoldEdit extends Component {
 
@@ -12,6 +13,7 @@ class FoldEdit extends Component {
   state = {
     title: this.props.fold.title,
     address: this.props.fold.address,
+    tags: this.props.fold.tags,
   }
 
   render() {
@@ -34,6 +36,11 @@ class FoldEdit extends Component {
           value={this.state.address}
           onChange={this.setProperty}
         />
+        <ChipInput
+          value={this.state.tags}
+          onRequestAdd={this.addTag}
+          onRequestDelete={this.removeTag}
+        />
         <button onClick={this.save}>Save</button>
       </div>
     )
@@ -42,6 +49,18 @@ class FoldEdit extends Component {
   setProperty = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+    })
+  }
+
+  addTag = (tag) => {
+    this.setState({
+      tags: [...this.state.tags, tag]
+    })
+  }
+
+  removeTag = (tag, index) => {
+    this.setState({
+      tags: this.state.tags.filter(t => t !== tag),
     })
   }
 
@@ -57,11 +76,12 @@ class FoldEdit extends Component {
 }
 
 const updateFoldMutation = gql`
-  mutation updateFold($foldId: ID! $title: String, $address: String) {
-    updateFold(id: $foldId, title: $title, address: $address) {
+  mutation updateFold($foldId: ID! $title: String, $address: String, $tags: [String]) {
+    updateFold(id: $foldId, title: $title, address: $address, tags: $tags) {
       id
       title
       address
+      tags
     }
   }
 `

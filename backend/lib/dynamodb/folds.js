@@ -10,6 +10,7 @@ export function getFolds() {
       'id',
       'title',
       'address',
+      'tags',
       'createdAt',
       'updatedAt',
     ],
@@ -37,6 +38,7 @@ export function createFold(args) {
       id: uuid(),
       title: args.title,
       address: args.address,
+      tags: args.tags,
       createdAt: timestamp,
       updatedAt: timestamp,
     },
@@ -54,9 +56,10 @@ export function updateFold(args) {
     ExpressionAttributeValues: {
       ':title': args.title,
       ':address': args.address,
+      ':tags': args.tags,
       ':updatedAt': new Date().getTime(),
     },
-    UpdateExpression: 'SET title = :title, address = :address, updatedAt = :updatedAt',
+    UpdateExpression: 'SET title = :title, address = :address, tags = :tags, updatedAt = :updatedAt',
     ReturnValues: 'ALL_NEW',
   };
 

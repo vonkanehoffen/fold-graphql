@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import ChipInput from 'material-ui-chip-input'
 import { foldsListQuery } from './FoldsList'
 
 class AddFold extends Component {
@@ -11,6 +12,7 @@ class AddFold extends Component {
   state = {
     title: '',
     address: '',
+    tags: [],
   }
 
   setProperty = (e) => {
@@ -19,7 +21,20 @@ class AddFold extends Component {
     })
   }
 
+  addTag = (tag) => {
+    this.setState({
+      tags: [...this.state.tags, tag]
+    })
+  }
+
+  removeTag = (tag, index) => {
+    this.setState({
+      tags: this.state.tags.filter(t => t !== tag),
+    })
+  }
+
   save = () => {
+    console.log(this.state)
     this.props.mutate({
       variables: this.state,
       optimisticResponse: {
@@ -59,6 +74,11 @@ class AddFold extends Component {
           value={this.state.address}
           onChange={this.setProperty}
         />
+        <ChipInput
+          value={this.state.tags}
+          onRequestAdd={this.addTag}
+          onRequestDelete={this.removeTag}
+        />
         <button onClick={this.save}>Save</button>
       </div>
     )
@@ -67,11 +87,12 @@ class AddFold extends Component {
 }
 
 const addFoldMutation = gql`
-  mutation createFold($title: String!, $address: String!) {
-    createFold(title: $title, address: $address) {
+  mutation createFold($title: String!, $address: String!, $tags: [String!]) {
+    createFold(title: $title, address: $address, tags: $tags) {
       id
       title
       address
+      tags
       createdAt
       updatedAt
     }

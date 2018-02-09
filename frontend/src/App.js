@@ -10,6 +10,7 @@ import { ApolloProvider, graphql } from 'react-apollo'
 import { toIdValue } from 'apollo-utilities'
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NotFound from './containers/NotFound'
 import logo from './logo.svg';
 import './App.css';
@@ -48,18 +49,20 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <BrowserRouter>
-          <div className="App">
-            <Link to="/" className="navbar">
-              Fold.im
-            </Link>
-            <Switch>
-              <Route exact path="/" component={FoldsList} />
-              <Route path="/fold/:foldId" component={FoldSingle} />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </BrowserRouter>
+        <MuiThemeProvider>
+          <BrowserRouter>
+            <div className="App">
+              <Link to="/" className="navbar">
+                Fold.im
+              </Link>
+              <Switch>
+                <Route exact path="/" component={FoldsList} />
+                <Route path="/fold/:foldId" component={FoldSingle} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </BrowserRouter>
+        </MuiThemeProvider>
       </ApolloProvider>
     );
   }
