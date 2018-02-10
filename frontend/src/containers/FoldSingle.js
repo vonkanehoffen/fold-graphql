@@ -31,6 +31,7 @@ const singleFoldQuery = gql`
       title
       address
       tags
+      owner
       createdAt
       updatedAt
     }

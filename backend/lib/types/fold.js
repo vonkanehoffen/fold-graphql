@@ -33,7 +33,7 @@ export default `
     title: String!
     address: String
     tags: [String!]!
-    #owner: String!
+    owner: String!
     #subscribers: [String!]!
     createdAt: String!
     updatedAt: String!

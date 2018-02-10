@@ -11,6 +11,7 @@ export function getFolds() {
       'title',
       'address',
       'tags',
+      'owner',
       'createdAt',
       'updatedAt',
     ],
@@ -30,7 +31,7 @@ export function getFoldById(id) {
   return db.get(params);
 }
 
-export function createFold(args) {
+export function createFold(args, context) {
   const timestamp = new Date().getTime()
   const params = {
     TableName,
@@ -39,6 +40,7 @@ export function createFold(args) {
       title: args.title,
       address: args.address,
       tags: args.tags,
+      owner: context.event.requestContext.authorizer.claims['cognito:username'],
       createdAt: timestamp,
       updatedAt: timestamp,
     },

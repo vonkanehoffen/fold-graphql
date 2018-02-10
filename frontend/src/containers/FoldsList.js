@@ -37,6 +37,7 @@ export const foldsListQuery = gql`
       title
       address
       tags
+      owner
       createdAt
       updatedAt
     }

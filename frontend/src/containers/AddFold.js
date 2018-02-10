@@ -41,6 +41,7 @@ class AddFold extends Component {
         createFold: {
           ...this.state,
           id: Math.round(Math.random() * -1000000),
+          owner: '', // TODO: Get current user without async?
           createdAt: new Date().getTime(),
           updatedAt: new Date().getTime(),
           __typename: 'Fold',
@@ -93,6 +94,7 @@ const addFoldMutation = gql`
       title
       address
       tags
+      owner
       createdAt
       updatedAt
     }

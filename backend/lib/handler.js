@@ -24,7 +24,10 @@ exports.graphql = function(event, context, callback) {
     output.headers['Access-Control-Allow-Origin'] = '*';
     callback(error, output);
   };
-  const handler = graphqlLambda({ schema });
+  const handler = graphqlLambda({
+    schema,
+    context: { event },
+  });
 
   return handler(event, context, callbackFilter);
 };

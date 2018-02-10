@@ -6,7 +6,7 @@ export default {
     fold: (_, args) => dbFolds.getFoldById(args.id),
   },
   Mutation: {
-    createFold: (_, args) => dbFolds.createFold(args),
+    createFold: (_, args, context) => dbFolds.createFold(args, context),
     updateFold: (_, args) => dbFolds.updateFold(args),
     deleteFold: (_, args) => dbFolds.deleteFold(args),
   },

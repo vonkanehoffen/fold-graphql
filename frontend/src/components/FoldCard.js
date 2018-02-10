@@ -28,6 +28,9 @@ const FoldCard = ({fold}) => {
         <div>
           Tags: {fold.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
         </div>
+        <div>
+          Owner: {fold.owner}
+        </div>
       </h3>
       <FoldRemove foldId={fold.id}/>
     </Card>
