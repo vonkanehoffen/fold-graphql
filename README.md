@@ -1,6 +1,15 @@
-# Folld.im
+# Fold.im
 
-## GraphQL
+Work in progress... Learning GraphQL!
+
+Copyright Kane Clover 2018.
+All rights reserved.
+
+For now...
+
+## Notes
+
+### GraphQL
 
 Get folds:
 ```
