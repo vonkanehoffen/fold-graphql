@@ -38,6 +38,11 @@ functions:
           path: graphql
           method: any
           cors: true
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:421945418195:userpool/us-east-1_BVCOA2D5v
+              # Note: Should be able to get the ARN from cloud formation output...
+              # It's WIP in sls: https://github.com/serverless/serverless/issues/3212#issuecomment-307341924
+              # 'Fn::GetAtt': [ FoldUserPool, Arn ]
 
 resources:
   Resources:
@@ -57,3 +62,60 @@ resources:
           WriteCapacityUnits: 1
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
+    FoldUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: FoldUserPool
+        SmsVerificationMessage: "Your verification code is {####}."
+        AutoVerifiedAttributes:
+          - email
+        MfaConfiguration: "OFF"
+        EmailVerificationSubject: "Your Fold.im verification code"
+        EmailVerificationMessage: "Your Fold.im verification code is {####}."
+        SmsAuthenticationMessage: "Your Fold.im authentication code is {####}."
+        Schema:
+          - Name: name
+            AttributeDataType: String
+            Mutable: true
+            Required: false
+          - Name: email
+            AttributeDataType: String
+            Mutable: false
+            Required: true
+          - Name: phone_number
+            AttributeDataType: String
+            Mutable: true
+            Required: false
+        Policies:
+          PasswordPolicy:
+            RequireLowercase: true
+            RequireSymbols: false
+            RequireNumbers: true
+            MinimumLength: 6
+            RequireUppercase: false
+        AdminCreateUserConfig:
+          InviteMessageTemplate:
+            EmailMessage: "Your Fold.im username is {username} and temporary password is {####}."
+            EmailSubject: "Your temporary Fold.im password"
+            SMSMessage: "Your Fold.im username is {username} and temporary password is {####}."
+#          UnusedAccountValidityDays: 28
+          AllowAdminCreateUserOnly: false
+    UserPoolClient:
+      Type: "AWS::Cognito::UserPoolClient"
+      Properties:
+        ClientName: foldClient
+        GenerateSecret: false
+        UserPoolId:
+          Ref: FoldUserPool
+  Outputs:
+    UserPoolId:
+      Value:
+        Ref: FoldUserPool
+      Export:
+        Name: "FoldUserPool::Id"
+#    UserPoolArn:
+#      Description: Arn of the cognito user pool
+#      Value:
+#        'Fn::GetAtt': [ FoldUserPool, Arn ]
+#      Export:
+#        Name: 'UserPoolArn::Arn'
