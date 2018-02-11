@@ -7,8 +7,8 @@ import {
 
 
 const userPool = new CognitoUserPool({
-  UserPoolId: 'us-east-1_BVCOA2D5v', // TODO: Set environment vars in serverless.yml
-  ClientId: '6mlahn0inlai73bmie2fn4k4q6',
+  UserPoolId: 'us-east-1_RfJtclQOy', // TODO: Set environment vars in serverless.yml
+  ClientId: '3h07oc3tf00rgud46ss713j40i',
 })
 
 /**
@@ -18,16 +18,20 @@ const userPool = new CognitoUserPool({
  * @param password
  * @returns {Promise<any>}
  */
-export function signUpUser(email, password) {
+export function signUpUser(name, email, password) {
   const attributeList = [
+    new CognitoUserAttribute({
+      Name: 'name',
+      Value: name,
+    }),
     new CognitoUserAttribute({
       Name: 'email',
       Value: email,
-    })
+    }),
   ]
   return new Promise((resolve, reject) => {
     userPool.signUp(
-      email,
+      name,
       password,
       attributeList,
       null,

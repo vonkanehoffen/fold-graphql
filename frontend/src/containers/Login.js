@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { authenticateUser, signOut } from '../cognito'
+import { Link } from 'react-router-dom'
 
 class Login extends Component {
 
   static defaultProps = {}
   static propTypes = {}
   state = {
-    email: '',
+    username: '',
     password: '',
     response: '',
   }
@@ -21,7 +22,7 @@ class Login extends Component {
   }
 
   login = async () => {
-    const response = await authenticateUser(this.state.email, this.state.password)
+    const response = await authenticateUser(this.state.username, this.state.password)
     this.setState({ response })
   }
 
@@ -33,11 +34,12 @@ class Login extends Component {
     return (
       <div>
         <h4>Login</h4>
-        <TextField label="Email" name="email" floatingLabelText="Email" value={this.state.email} onChange={this.setProperty}/>
-        <TextField label="Password" name="password" floatingLabelText="Password" type="password" value={this.state.password} onChange={this.setProperty}/>
+        <TextField name="username" floatingLabelText="User Name" value={this.state.username} onChange={this.setProperty}/>
+        <TextField name="password" floatingLabelText="Password" type="password" value={this.state.password} onChange={this.setProperty}/>
         <RaisedButton label="Login" onClick={this.login}/>
         <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
 
+        <h5><Link to="/confirm">Confirm user</Link></h5>
         <h5>or signout</h5>
         <RaisedButton label="Sign out" onClick={this.doSignOut}/>
       </div>

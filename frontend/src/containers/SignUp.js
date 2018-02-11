@@ -9,6 +9,7 @@ class SignUp extends Component {
   static defaultProps = {}
   static propTypes = {}
   state = {
+    name: '', // TODO: regex for valid user names: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     email: '',
     password: '',
     response: '',
@@ -21,7 +22,7 @@ class SignUp extends Component {
   }
 
   signUp = async () => {
-    const response = await signUpUser(this.state.email, this.state.password)
+    const response = await signUpUser(this.state.name, this.state.email, this.state.password)
     this.setState({ response })
   }
 
@@ -29,8 +30,9 @@ class SignUp extends Component {
     return (
       <div>
         <h4>Signup</h4>
-        <TextField label="Email" name="email" floatingLabelText="Email" value={this.state.email} onChange={this.setProperty}/>
-        <TextField label="Password" name="password" floatingLabelText="Password" type="password" value={this.state.password} onChange={this.setProperty}/>
+        <TextField name="name" floatingLabelText="Name" value={this.state.name} onChange={this.setProperty}/>
+        <TextField name="email" floatingLabelText="Email" value={this.state.email} onChange={this.setProperty}/>
+        <TextField name="password" floatingLabelText="Password" type="password" value={this.state.password} onChange={this.setProperty}/>
         <RaisedButton label="Sign Up" onClick={this.signUp}/>
         <pre>{JSON.stringify(this.state.response, null, 2)}</pre>
       </div>

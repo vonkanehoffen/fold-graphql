@@ -39,7 +39,7 @@ functions:
           method: any
           cors: true
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:421945418195:userpool/us-east-1_BVCOA2D5v
+            arn: arn:aws:cognito-idp:us-east-1:421945418195:userpool/us-east-1_RfJtclQOy
               # Note: Should be able to get the ARN from cloud formation output...
               # It's WIP in sls: https://github.com/serverless/serverless/issues/3212#issuecomment-307341924
               # 'Fn::GetAtt': [ FoldUserPool, Arn ]
@@ -63,6 +63,11 @@ resources:
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
     FoldUserPool:
+      # Note: CHANGING THIS CONFIG CAN BURN ALL USERS. Pool gets deleted and re-deployed by sls
+      # Remember this in production....
+      # Ref:
+      # https://gist.github.com/singledigit/2c4d7232fa96d9e98a3de89cf6ebe7a5
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html
       Type: AWS::Cognito::UserPool
       Properties:
         UserPoolName: FoldUserPool
@@ -77,7 +82,7 @@ resources:
           - Name: name
             AttributeDataType: String
             Mutable: true
-            Required: false
+            Required: true
           - Name: email
             AttributeDataType: String
             Mutable: false
