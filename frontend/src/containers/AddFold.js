@@ -52,7 +52,7 @@ class AddFold extends Component {
         const data = store.readQuery({ query: foldsListQuery });
         data.folds.push(createFold);
         store.writeQuery({ query: foldsListQuery, data });
-        this.setState({ title: '', address: ''})
+        this.setState({ title: '', address: '', tags: []})
       },
     })
   }
