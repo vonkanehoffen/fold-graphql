@@ -3,19 +3,24 @@ import * as db from './dynamo'
 
 const TableName = 'folds'
 
-export function getFolds() {
+export function getFolds(args) {
   const params = {
     TableName,
-    AttributesToGet: [
-      'id',
-      'title',
-      'address',
-      'tags',
-      'owner',
-      'createdAt',
-      'updatedAt',
-    ],
+    // AttributesToGet: [
+    //   'id',
+    //   'title',
+    //   'address',
+    //   'tags',
+    //   'owner',
+    //   'createdAt',
+    //   'updatedAt',
+    // ],
   };
+
+  if(args.tag) {
+    params.FilterExpression = "contains (tags, :tag)"
+    params.ExpressionAttributeValues = {":tag": args.tag }
+  }
 
   return db.scan(params)
 }

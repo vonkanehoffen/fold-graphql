@@ -22,6 +22,7 @@ import Login from "./containers/Login"
 import HomeIntro from "./containers/HomeIntro"
 import ConfirmUser from "./containers/ConfirmUser"
 import {authedFetch} from "./cognito"
+import FoldsByTag from "./containers/FoldsByTag"
 
 // function dataIdFromObject (result) {
 //   if (result.__typename) {
@@ -70,6 +71,7 @@ class App extends Component {
                 <Route path="/confirm" component={ConfirmUser} />
                 <Route path="/folds" component={FoldsList} />
                 <Route path="/fold/:foldId" component={FoldSingle} />
+                <Route path="/tag/:tag" component={FoldsByTag} />
                 <Route component={NotFound} />
               </Switch>
             </div>

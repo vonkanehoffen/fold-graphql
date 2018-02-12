@@ -49,3 +49,16 @@ mutation DeleteFold($id: ID!) {
   }
 }
 ```
+
+### DynamoDB
+
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html
+
+Scan with filter... right way to do it? Or query on GSI
+
+```
+aws dynamodb scan \
+--table-name folds \
+--filter-expression "contains (tags, :tag)" \
+--expression-attribute-values '{":tag":{"S":"Things"}}
+```

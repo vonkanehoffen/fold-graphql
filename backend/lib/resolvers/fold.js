@@ -2,7 +2,7 @@ import * as dbFolds from '../dynamodb/folds';
 
 export default {
   Query: {
-    folds: () => dbFolds.getFolds(),
+    folds: (_, args) => dbFolds.getFolds(args),
     fold: (_, args) => dbFolds.getFoldById(args.id),
   },
   Mutation: {

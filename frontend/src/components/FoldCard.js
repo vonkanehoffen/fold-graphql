@@ -26,7 +26,7 @@ const FoldCard = ({fold}) => {
           <i className="material-icons">link</i>
         </Link>
         <div>
-          Tags: {fold.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
+          Tags: {fold.tags.map((t, i) => <Link key={i} to={`/tag/${t}`}>{t}</Link>)}
         </div>
         <div>
           Owner: {fold.owner}
