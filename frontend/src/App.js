@@ -12,46 +12,42 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NotFound from './containers/NotFound'
-import logo from './logo.svg';
+import 'normalize.css';
 import './App.css';
-import FoldsList from "./containers/FoldsList"
-import FoldSingle from "./containers/FoldSingle"
 import FoldEdit from './containers/FoldEdit'
-import SignUp from "./containers/SignUp"
-import Login from "./containers/Login"
-import HomeIntro from "./containers/HomeIntro"
-import ConfirmUser from "./containers/ConfirmUser"
+import Main from './containers/main/Main'
+import SignUp from "./containers/welcome/SignUp"
+import Login from "./containers/welcome/Login"
+import Welcome from "./containers/welcome/Welcome"
+import ConfirmUser from "./containers/welcome/ConfirmUser"
 import {authedFetch} from "./cognito"
-import FoldsByTag from "./containers/FoldsByTag"
 
-// function dataIdFromObject (result) {
-//   if (result.__typename) {
-//     if (result.id !== undefined) {
-//       return `${result.__typename}:${result.id}`;
-//     }
-//   }
-//   return null;
-// }
+function dataIdFromObject (result) {
+  if (result.__typename) {
+    if (result.id !== undefined) {
+      return `${result.__typename}:${result.id}`;
+    }
+  }
+  return null;
+}
 
-// const cache = new InMemoryCache({
-//   dataIdFromObject,
-//   cacheResolvers: {
-//     Query: {
-//       fold: (_, args) => {
-//         return toIdValue(dataIdFromObject({ __typename: 'Fold', id: args['id'] }))
-//       },
-//     },
-//   },
-// })
+const cache = new InMemoryCache({
+  dataIdFromObject,
+  cacheResolvers: {
+    Query: {
+      fold: (_, args) => {
+        return toIdValue(dataIdFromObject({ __typename: 'Fold', id: args['id'] }))
+      },
+    },
+  },
+})
 
 const client = new ApolloClient({
   link: new HttpLink({
     uri: 'https://7r4nx53sz1.execute-api.us-east-1.amazonaws.com/dev/graphql',
     fetch: authedFetch,
   }),
-  cache: new InMemoryCache({
-    // dataIdFromObject: o => o.id
-  }),
+  cache,
 });
 
 class App extends Component {
@@ -61,17 +57,9 @@ class App extends Component {
         <MuiThemeProvider>
           <BrowserRouter>
             <div className="App">
-              <Link to="/" className="navbar">
-                Fold.im
-              </Link>
               <Switch>
-                <Route exact path="/" component={HomeIntro} />
-                <Route path="/signup" component={SignUp} />
-                <Route path="/login" component={Login} />
-                <Route path="/confirm" component={ConfirmUser} />
-                <Route path="/folds" component={FoldsList} />
-                <Route path="/fold/:foldId" component={FoldSingle} />
-                <Route path="/tag/:tag" component={FoldsByTag} />
+                <Route path="/welcome" component={Welcome} />
+                <Route path="/" component={Main} />
                 <Route component={NotFound} />
               </Switch>
             </div>

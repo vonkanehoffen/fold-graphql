@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {confirmUser} from '../cognito'
+import {confirmUser} from '../../cognito'
 
 class Login extends Component {
 

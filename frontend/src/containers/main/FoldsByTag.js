@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import AddFold from './AddFold'
-import FoldCard from "../components/FoldCard"
+import AddFold from '../AddFold'
+import FoldCard from "../../components/FoldCard"
 
 const Wrapper = styled.div`
   display: flex;

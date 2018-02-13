@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { foldsListQuery } from './FoldsList'
+import foldsListQuery from '../graphql/foldsListQuery.graphql'
 
 const FoldRemove = ({ foldId, mutate }) => {
   const deleteFold = (e) => {

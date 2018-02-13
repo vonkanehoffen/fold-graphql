@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import ChipInput from 'material-ui-chip-input'
-import { foldsListQuery } from './FoldsList'
+import foldsListQuery from '../graphql/foldsListQuery.graphql'
 
 class AddFold extends Component {
 

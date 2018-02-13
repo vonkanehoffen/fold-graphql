@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import gql from 'graphql-tag';
+import foldsListQuery from '../../graphql/foldsListQuery.graphql'
 import { graphql } from 'react-apollo';
-import AddFold from './AddFold'
-import FoldCard from "../components/FoldCard"
+import AddFold from '../AddFold'
+import FoldCard from "../../components/FoldCard"
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,19 +29,5 @@ const FoldsList = ({ data: { loading, error, folds }}) => {
       </div>
     )
 }
-
-export const foldsListQuery = gql`
-  query foldsListQuery {
-    folds {
-      id
-      title
-      address
-      tags
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-`
 
 export default graphql(foldsListQuery)(FoldsList)

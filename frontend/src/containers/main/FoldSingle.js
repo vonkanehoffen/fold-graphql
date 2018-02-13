@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import FoldCard from "../components/FoldCard"
-import FoldEdit from "./FoldEdit"
+import FoldCard from "../../components/FoldCard"
+import FoldEdit from "../FoldEdit"
 
 const FoldSingle = ({ data: { loading, error, fold }}) => {
   if (loading) {
