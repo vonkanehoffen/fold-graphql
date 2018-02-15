@@ -120,7 +120,7 @@ export function signOut() {
  * This returns user ID, email etc. as well as the JWT required to auth requests.
  *
  */
-function getUserSession() {
+export function getUserSession() {
   const cognitoGetUser = userPool.getCurrentUser();
   return new Promise((resolve, reject) => {
     if (cognitoGetUser !== null) {

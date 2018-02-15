@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { authenticateUser, signOut } from '../../cognito'
@@ -15,7 +16,7 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
-    response: '',
+    response: {},
   }
 
   setProperty = (e) => {
@@ -25,9 +26,13 @@ class Login extends Component {
   }
 
   login = async () => {
-    const response = await authenticateUser(this.state.username, this.state.password)
-    this.setState({ response })
-    this.props.client.resetStore() // TODO: This doesn't work for login following auth error on folds list :-(
+    try {
+      const response = await authenticateUser(this.state.username, this.state.password)
+      this.props.client.resetStore()
+      this.setState({ response })
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   doSignOut = () => {
@@ -36,6 +41,10 @@ class Login extends Component {
   }
 
   render() {
+    if(this.state.response.idToken) return (
+      <Redirect to="/"/>
+    )
+
     return (
       <div>
         <h4>Login</h4>
