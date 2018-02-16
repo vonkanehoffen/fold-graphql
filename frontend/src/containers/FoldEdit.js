@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import ChipInput from 'material-ui-chip-input'
+import updateFoldMutation from '../graphql/updateFoldMutation.graphql'
 
 class FoldEdit extends Component {
 
@@ -74,18 +75,6 @@ class FoldEdit extends Component {
   }
 
 }
-
-const updateFoldMutation = gql`
-  mutation updateFold($foldId: ID! $title: String, $address: String, $tags: [String]) {
-    updateFold(id: $foldId, title: $title, address: $address, tags: $tags) {
-      id
-      title
-      address
-      tags
-    }
-  }
-`
-
 
 export default graphql(updateFoldMutation,
   // {

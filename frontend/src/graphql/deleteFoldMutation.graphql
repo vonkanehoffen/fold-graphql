@@ -1,0 +1,5 @@
+mutation deleteFold($id: ID!) {
+    deleteFold(id: $id) {
+        id
+    }
+}

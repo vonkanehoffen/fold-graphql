@@ -1,0 +1,12 @@
+query foldsByTag($tag: String) {
+    # TODO: this needs to know about the relationship with the main query somehow...
+    folds(tag: $tag) {
+        id
+        title
+        address
+        tags
+        owner
+        createdAt
+        updatedAt
+    }
+}

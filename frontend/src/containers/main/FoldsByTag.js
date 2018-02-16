@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import AddFold from '../AddFold'
 import FoldCard from "../../components/FoldCard"
+import foldsByTag from "../../graphql/foldsByTag.graphql"
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,21 +30,6 @@ const FoldsByTag = ({ data: { loading, error, folds }}) => {
     </div>
   )
 }
-
-// TODO: this needs to know about the relationship with the main query somehow...
-export const foldsByTag = gql`
-    query foldsByTag($tag: String) {
-        folds(tag: $tag) {
-            id
-            title
-            address
-            tags
-            owner
-            createdAt
-            updatedAt
-        }
-    }
-`
 
 export default graphql(foldsByTag, {
   options: (props) => ({

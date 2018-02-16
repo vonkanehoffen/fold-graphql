@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import ChipInput from 'material-ui-chip-input'
 import foldsListQuery from '../graphql/foldsListQuery.graphql'
+import addFoldMutation from '../graphql/addFoldMutation.graphql'
 
 class AddFold extends Component {
 
@@ -86,19 +87,5 @@ class AddFold extends Component {
   }
 
 }
-
-const addFoldMutation = gql`
-  mutation createFold($title: String!, $address: String!, $tags: [String!]) {
-    createFold(title: $title, address: $address, tags: $tags) {
-      id
-      title
-      address
-      tags
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-`
 
 export default graphql(addFoldMutation)(AddFold)

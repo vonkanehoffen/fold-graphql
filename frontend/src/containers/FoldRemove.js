@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import foldsListQuery from '../graphql/foldsListQuery.graphql'
+import deleteFoldMutation from '../graphql/deleteFoldMutation.graphql'
 
 const FoldRemove = ({ foldId, mutate }) => {
   const deleteFold = (e) => {
@@ -25,13 +26,5 @@ const FoldRemove = ({ foldId, mutate }) => {
 }
 
 FoldRemove.propTypes = {}
-
-const deleteFoldMutation = gql`
-  mutation deleteFold($id: ID!) {
-    deleteFold(id: $id) {
-      id
-    }
-  }
-`
 
 export default graphql(deleteFoldMutation)(FoldRemove)

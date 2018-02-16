@@ -1,0 +1,11 @@
+query singleFold($foldId: ID!) {
+    fold(id: $foldId) {
+        id
+        title
+        address
+        tags
+        owner
+        createdAt
+        updatedAt
+    }
+}

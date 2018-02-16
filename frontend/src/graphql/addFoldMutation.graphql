@@ -1,0 +1,11 @@
+mutation createFold($title: String!, $address: String!, $tags: [String!]) {
+    createFold(title: $title, address: $address, tags: $tags) {
+        id
+        title
+        address
+        tags
+        owner
+        createdAt
+        updatedAt
+    }
+}

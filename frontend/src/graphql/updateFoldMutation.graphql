@@ -1,0 +1,8 @@
+mutation updateFold($foldId: ID! $title: String, $address: String, $tags: [String]) {
+    updateFold(id: $foldId, title: $title, address: $address, tags: $tags) {
+        id
+        title
+        address
+        tags
+    }
+}
