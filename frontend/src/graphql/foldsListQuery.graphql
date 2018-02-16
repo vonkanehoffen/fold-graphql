@@ -1,0 +1,11 @@
+query foldsListQuery {
+  folds {
+    id
+    title
+    address
+    tags
+    owner
+    createdAt
+    updatedAt
+  }
+}
