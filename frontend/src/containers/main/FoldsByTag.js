@@ -1,18 +1,18 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import AddFold from '../AddFold'
 import FoldCard from "../../components/FoldCard"
-import foldsByTag from "../../graphql/foldsByTag.graphql"
+import foldsListQuery from '../../graphql/foldsListQuery.graphql'
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
 `
-const FoldsByTag = ({ data: { loading, error, folds }}) => {
+const FoldsByTag = ({ data: { loading, error, folds }, session}) => {
+  console.log(session)
   if (loading) {
     return <p>Loading ...</p>;
   }
@@ -31,9 +31,10 @@ const FoldsByTag = ({ data: { loading, error, folds }}) => {
   )
 }
 
-export default graphql(foldsByTag, {
+export default graphql(foldsListQuery, {
   options: (props) => ({
     variables: {
+      owner: props.session.idToken.payload['cognito:username'],
       tag: props.match.params.tag,
     },
   })

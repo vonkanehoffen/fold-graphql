@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   width: 100%;
   flex-wrap: wrap;
 `
-const FoldsList = ({ data: { loading, error, folds }}) => {
+const FoldsList = ({ data: { loading, error, folds }, session}) => {
     if (loading) {
       return <p>Loading ...</p>;
     }
@@ -30,4 +30,10 @@ const FoldsList = ({ data: { loading, error, folds }}) => {
     )
 }
 
-export default graphql(foldsListQuery)(FoldsList)
+export default graphql(foldsListQuery, {
+  options: (props) => ({
+    variables: {
+      owner: props.session.idToken.payload['cognito:username'],
+    },
+  })
+})(FoldsList)

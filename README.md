@@ -50,11 +50,36 @@ mutation DeleteFold($id: ID!) {
 }
 ```
 
+### Hmmm
+
+Problems with apollo store update when unused tags in the query:
+https://github.com/apollographql/react-apollo/issues/708
+https://github.com/apollographql/apollo-client/issues/2051
+https://stackoverflow.com/questions/44348225/apollo-client-react-container-add-created-element-to-paginated-list-of-elements
+https://www.apollographql.com/docs/react/features/cache-updates.html#fetchMore
+
+Possible autocomplete component for filter?
+http://downshift.netlify.com/
+
+Do pagination:
+https://www.apollographql.com/docs/react/recipes/pagination.html
+https://www.apollographql.com/docs/react/basics/queries.html#graphql-query-data-fetchMore
+also... the The @connection directive from above.
+Could solve the problem of getting new records into multiple views?
+
+http://graphql.org/learn/queries/
+
+
+
 ### DynamoDB
 
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html
 
 Scan with filter... right way to do it? Or query on GSI
+
+Reserved words.... already used owner...
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html
+
 
 ```
 aws dynamodb scan \

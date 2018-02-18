@@ -1,5 +1,5 @@
-query foldsListQuery {
-  folds {
+query foldsListQuery($tag: String, $owner: String) {
+  folds(tag: $tag, owner: $owner) {
     id
     title
     address

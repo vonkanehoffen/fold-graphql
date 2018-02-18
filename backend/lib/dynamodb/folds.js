@@ -4,25 +4,36 @@ import * as db from './dynamo'
 const TableName = 'folds'
 
 export function getFolds(args) {
-  const params = {
-    TableName,
-    // AttributesToGet: [
-    //   'id',
-    //   'title',
-    //   'address',
-    //   'tags',
-    //   'owner',
-    //   'createdAt',
-    //   'updatedAt',
-    // ],
-  };
+  // TODO: More efficient ways to do this? eg.
+  // https://aws.amazon.com/blogs/database/querying-on-multiple-attributes-in-amazon-dynamodb/
+  return db.scan(filterParams(args))
+}
+
+const filterParams = (args) => {
+  let params = { TableName }
+
+  if(args.tag && args.owner) {
+    params.FilterExpression = "contains (tags, :tag) AND #o = :owner"
+    params.ExpressionAttributeValues = {":tag": args.tag, ":owner": args.owner}
+    // Reserved keyword. See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html
+    params.ExpressionAttributeNames = {"#o": "owner"}
+    return params
+  }
 
   if(args.tag) {
     params.FilterExpression = "contains (tags, :tag)"
     params.ExpressionAttributeValues = {":tag": args.tag }
+    return params
   }
 
-  return db.scan(params)
+  if(args.owner) {
+    params.FilterExpression = "contains (#o, :owner)"
+    params.ExpressionAttributeValues = {":owner": args.owner }
+    params.ExpressionAttributeNames = {"#o": "owner"}
+    return params
+  }
+
+  return params
 }
 
 export function getFoldById(id) {

@@ -11,6 +11,7 @@ import { getUserSession, signOut } from '../../cognito'
 class Main extends Component {
 
   state = {
+    loading: true,
     session: {},
   }
 
@@ -21,7 +22,7 @@ class Main extends Component {
     } catch(e) {
       session = false
     }
-    this.setState({ session })
+    this.setState({ session, loading: false })
   }
 
   doSignOut = () => {
@@ -30,7 +31,9 @@ class Main extends Component {
   }
 
   render() {
-    const { session } = this.state
+    const { session, loading } = this.state
+
+    if(loading) return <p>Loading...</p>
 
     if(session === false) return <Redirect to="/welcome"/>
 
@@ -38,9 +41,9 @@ class Main extends Component {
       <div>
         <NavBar session={session} doSignOut={this.doSignOut}/>
         <Switch>
-          <Route path="/fold/:foldId" component={FoldSingle} />
-          <Route path="/tag/:tag" component={FoldsByTag} />
-          <Route component={FoldsList} />
+          <Route path="/fold/:foldId" render={props => <FoldSingle {...{session}} {...props}/>}/>
+          <Route path="/tag/:tag" render={props => <FoldsByTag {...{session}} {...props}/>}/>
+          <Route render={props => <FoldsList {...{session}} {...props}/>}/>
         </Switch>
       </div>
     )

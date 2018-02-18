@@ -2,7 +2,7 @@ export default `
   # Root types...
   
   type Query {
-    folds(tag: String): [Fold]
+    folds(tag: String, owner: String): [Fold]
     fold(id: ID!)
     : Fold
   }

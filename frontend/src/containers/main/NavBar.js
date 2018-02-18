@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 
 const NavBar = ({ session, doSignOut }) => {
-  console.log(session)
   return (
     <nav>
       <Link to="/" className="navbar">

@@ -7,7 +7,7 @@ import FoldCard from '../../components/FoldCard'
 import FoldEdit from '../FoldEdit'
 import singleFoldQuery from '../../graphql/singleFoldQuery.graphql'
 
-const FoldSingle = ({ data: { loading, error, fold }}) => {
+const FoldSingle = ({ data: { loading, error, fold }, session}) => {
   if (loading) {
     return <p>Loading ...</p>;
   }
