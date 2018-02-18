@@ -9,7 +9,9 @@ import addFoldMutation from '../graphql/addFoldMutation.graphql'
 class AddFold extends Component {
 
   static defaultProps = {}
-  static propTypes = {}
+  static propTypes = {
+    session: PropTypes.object.isRequired,
+  }
   state = {
     title: '',
     address: '',
@@ -35,24 +37,26 @@ class AddFold extends Component {
   }
 
   save = () => {
-    console.log(this.state)
-    this.props.mutate({
+    const { mutate, session } = this.props
+    mutate({
       variables: this.state,
       optimisticResponse: {
         createFold: {
           ...this.state,
           id: Math.round(Math.random() * -1000000),
-          owner: '', // TODO: Get current user without async?
+          owner: session.idToken.payload['cognito:username'],
           createdAt: new Date().getTime(),
           updatedAt: new Date().getTime(),
           __typename: 'Fold',
         },
       },
+
       // https://www.apollographql.com/docs/react/features/cache-updates.html
+      // Do we need to use fragments? https://www.apollographql.com/docs/react/features/fragments.html
       update: (store, { data: { createFold } }) => {
-        const data = store.readQuery({ query: foldsListQuery });
+        const data = store.readQuery({ query: foldsListQuery, variables: this.props.variables });
         data.folds.push(createFold);
-        store.writeQuery({ query: foldsListQuery, data });
+        store.writeQuery({ query: foldsListQuery, data, variables: this.props.variables });
         this.setState({ title: '', address: '', tags: []})
       },
     })

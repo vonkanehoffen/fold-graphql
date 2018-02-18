@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   width: 100%;
   flex-wrap: wrap;
 `
-const FoldsList = ({ data: { loading, error, folds }, session}) => {
+const FoldsList = ({ data: { loading, error, folds, variables }, session}) => {
     if (loading) {
       return <p>Loading ...</p>;
     }
@@ -25,7 +25,7 @@ const FoldsList = ({ data: { loading, error, folds }, session}) => {
         <Wrapper>
           {folds.map(fold => <FoldCard fold={fold} key={fold.id}/>)}
         </Wrapper>
-        <AddFold/>
+        <AddFold {...{session, variables}}/>
       </div>
     )
 }
