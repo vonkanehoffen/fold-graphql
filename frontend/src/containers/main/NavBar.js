@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
-import SearchBox from '../../components/SearchBox'
+import SearchBox from '../../components/SearchBox/index'
 
 const NavBar = ({ session, doSignOut }) => {
   return (

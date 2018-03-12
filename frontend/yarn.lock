@@ -2008,6 +2008,10 @@ detect-port-alt@1.1.5:
     address "^1.0.1"
     debug "^2.6.0"
 
+diacritic@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/diacritic/-/diacritic-0.0.2.tgz#fc2a887b5a5bc0a0a854fb614c7c2f209061ee04"
+
 diff@^3.2.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
@@ -4256,6 +4260,12 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
+match-sorter@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/match-sorter/-/match-sorter-2.2.0.tgz#3e88661aab7b8320836f67731cf7f9d3cb889761"
+  dependencies:
+    diacritic "0.0.2"
+
 material-ui-chip-input@^0.18.5:
   version "0.18.5"
   resolved "https://registry.yarnpkg.com/material-ui-chip-input/-/material-ui-chip-input-0.18.5.tgz#7ccf5e8733eb1282349ff610a92810d55242a2f5"
@@ -5432,6 +5442,12 @@ react-event-listener@^0.5.1:
     fbjs "^0.8.16"
     prop-types "^15.6.0"
     warning "^3.0.0"
+
+react-input-autosize@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-router-dom@^4.2.2:
   version "4.2.2"
