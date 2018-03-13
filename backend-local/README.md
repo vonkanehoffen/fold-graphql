@@ -15,6 +15,15 @@ npm start
 ```
 
 
+# DynamoDB local:
+
+```
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+```
+Setup tables:
+```
+babel-node src/setup/createTables.js
+```
 
 
 

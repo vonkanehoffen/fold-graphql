@@ -20,6 +20,7 @@
     "apollo-engine": "^0.5.2",
     "apollo-server-express": "^1.2.0",
     "apollo-tracing": "^0.1.1",
+    "aws-sdk": "^2.208.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",

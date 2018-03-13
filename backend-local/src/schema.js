@@ -6,12 +6,13 @@
 // graphql-tools combines a schema string with resolvers.
 import { makeExecutableSchema } from 'graphql-tools';
 import uuid from 'uuid/v1'
+import * as db from './db'
 
 // Construct a schema, using GraphQL schema language
 // language=GraphQL Schema
 const typeDefs = `
 	type Fold {
-		id: Int!
+		id: String!
 		ownerId: String!
     title: String
     address: String
@@ -37,7 +38,7 @@ const typeDefs = `
   }
 
   type Query {
-    getFold(id: Int!): Fold
+    getFold(id: String!, ownerId: String): Fold
     getTag(slug: String!): Tag
     getAuthor(id: String!): Author
   }
@@ -48,7 +49,8 @@ const typeDefs = `
 const resolvers = {
   Query: {
     getFold: (root, args, context) => {
-      return foldsDB.find(f => f.id == args.id)
+      // return foldsDB.find(f => f.id == args.id)
+      return db.getFoldById(args.id, args.ownerId)
     },
     getTag: (_, {slug}) => tagsDB.find(t => t.slug == slug),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
