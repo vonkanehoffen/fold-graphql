@@ -5,60 +5,10 @@
 
 // graphql-tools combines a schema string with resolvers.
 import { makeExecutableSchema } from 'graphql-tools';
-
-// Polyfill?!
-if (!Array.prototype.includes) {
-  Object.defineProperty(Array.prototype, 'includes', {
-    value: function(searchElement, fromIndex) {
-
-      if (this == null) {
-        throw new TypeError('"this" is null or not defined');
-      }
-
-      // 1. Let O be ? ToObject(this value).
-      var o = Object(this);
-
-      // 2. Let len be ? ToLength(? Get(O, "length")).
-      var len = o.length >>> 0;
-
-      // 3. If len is 0, return false.
-      if (len === 0) {
-        return false;
-      }
-
-      // 4. Let n be ? ToInteger(fromIndex).
-      //    (If fromIndex is undefined, this step produces the value 0.)
-      var n = fromIndex | 0;
-
-      // 5. If n ≥ 0, then
-      //  a. Let k be n.
-      // 6. Else n < 0,
-      //  a. Let k be len + n.
-      //  b. If k < 0, let k be 0.
-      var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
-
-      function sameValueZero(x, y) {
-        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
-      }
-
-      // 7. Repeat, while k < len
-      while (k < len) {
-        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
-        // b. If SameValueZero(searchElement, elementK) is true, return true.
-        if (sameValueZero(o[k], searchElement)) {
-          return true;
-        }
-        // c. Increase k by 1. 
-        k++;
-      }
-
-      // 8. Return false
-      return false;
-    }
-  });
-}
+import uuid from 'uuid/v1'
 
 // Construct a schema, using GraphQL schema language
+// language=GraphQL Schema
 const typeDefs = `
 	type Fold {
 		id: Int!
@@ -66,6 +16,13 @@ const typeDefs = `
     title: String
     address: String
     tags: [Tag]
+  }
+  type Mutation {
+    createFold(
+      title: String!
+      address: String!
+      tags: [String!]
+    ): Fold!
   }
   type Tag {
 		slug: String!
@@ -96,6 +53,21 @@ const resolvers = {
     getTag: (_, {slug}) => tagsDB.find(t => t.slug == slug),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
   },
+  Mutation: {
+    createFold: (_, {title, address, tags}) => {
+      const fold = {
+        id: uuid(),
+        ownerId: '1a',
+        title,
+        address,
+        tags,
+      }
+
+      foldsDB.push(fold)
+      console.log(foldsDB)
+      return fold
+    }
+  },
   Fold: {
     tags: (root, args, context) => {
       return root.tags.map(t => tagsDB.find(tag => tag.slug === t))
@@ -104,7 +76,6 @@ const resolvers = {
   Tag: {
     folds: (tag) => {
     	return foldsDB.filter(f => {
-        console.log("tags: ", f.tags[0])
         return f.tags.includes(tag.slug)
       })
     }
