@@ -20,14 +20,14 @@ const resolvers = {
   },
   Tag: {
     folds: (tag) => {
-      return foldsDB.filter(f => {
-        return f.tags.includes(tag.slug)
-      })
+      // return foldsDB.filter(f => {
+      //   return f.tags.includes(tag.slug)
+      // })
+      return db.getFoldsByTag(tag.slug, tag.ownerId).then(data => data.Items)
     }
   },
   Author: {
     folds: (author) => {
-      console.log(author.id)
       return db.getFoldsByOwner(author.id)
       // return foldsDB.filter(f => f.ownerId === author.id)
     }

@@ -41,6 +41,11 @@ export const getSingleFold = (id, ownerId) => dynamoDB.get({
 /**
  * Get all a user's folds
  * Again, pagination needed probably.
+ * ...is scan the most efficient way to do this?
+ * Query might be better as it doesn't access every item.
+ *
+ * actually scan IS most efficient - you can't query on sort key only.
+ *
  * @param ownerId
  */
 export const getFoldsByOwner = (ownerId) => dynamoDB.scan({
@@ -50,6 +55,19 @@ export const getFoldsByOwner = (ownerId) => dynamoDB.scan({
     ":o": ownerId
   }
 }).promise().then(data => data.Items)
+
+
+export const getFoldsByTag = (slug, ownerId) => dynamoDB.scan({
+  TableName: 'folds',
+  FilterExpression: "contains (tags, :tag) AND #o = :owner",
+  ExpressionAttributeNames: {
+    "#o": "ownerId"
+  },
+  ExpressionAttributeValues: {
+    ":tag": slug,
+    ":owner": ownerId
+  },
+}).promise()
 
 /**
  * Get all tags
