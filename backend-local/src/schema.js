@@ -38,7 +38,7 @@ const typeDefs = `
   }
 
   type Query {
-    getFold(id: String!, ownerId: String): Fold
+    getFold(id: String!, ownerId: String): [Fold]
     getTag(slug: String!): Tag
     getAuthor(id: String!): Author
   }

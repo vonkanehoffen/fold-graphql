@@ -23,6 +23,18 @@ export function get(params) {
   );
 }
 
+export function query(params) {
+  return new Promise((resolve, reject) =>
+    dynamoDb.query(params).promise()
+      .then(data => {
+        console.log(data.Items)
+        return resolve(data.Items)
+      })
+      .catch(err => reject(err)),
+  );
+}
+
+
 export function createItem(params) {
   return new Promise((resolve, reject) =>
     dynamoDb.put(params).promise()
