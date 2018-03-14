@@ -39,7 +39,7 @@ const typeDefs = `
 
   type Query {
     getFolds: [Fold]
-    getFold(id: String!): Fold
+    getFold(id: String!, ownerId: String!): Fold
     getTag(slug: String!): Tag
     getAuthor(id: String!): Author
   }
@@ -50,7 +50,7 @@ const typeDefs = `
 const resolvers = {
   Query: {
     getFolds: () => db.allFolds(),
-    getFold: (_, {id}) => db.getSingleFold(id),
+    getFold: (_, {id, ownerId}) => db.getSingleFold(id, ownerId),
     getTag: (_, {slug}) => tagsDB.find(t => t.slug == slug),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
   },

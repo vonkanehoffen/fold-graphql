@@ -10,7 +10,7 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const params = {
-  TableName: "folds2",
+  TableName: "folds",
   Item: {
     "id": uuid(),
     "ownerId": "a9",

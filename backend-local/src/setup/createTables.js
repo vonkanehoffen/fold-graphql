@@ -10,12 +10,14 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB
 
 const params = {
-  TableName : "folds2",
+  TableName : "folds",
   KeySchema: [
     { AttributeName: "id", KeyType: "HASH"},  //Partition key
+    { AttributeName: "ownerId", KeyType: "RANGE" }  //Sort key
   ],
   AttributeDefinitions: [
     { AttributeName: "id", AttributeType: "S" },
+    { AttributeName: "ownerId", AttributeType: "S" }
   ],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,

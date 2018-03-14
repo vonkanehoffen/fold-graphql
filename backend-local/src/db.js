@@ -10,26 +10,24 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.04.html
 
 export const allFolds = () => dynamoDB.scan({
-  TableName: 'folds2'
+  TableName: 'folds'
 }).promise().then(data => data.Items)
 
-export const getSingleFold = (id) => dynamoDB.get({
-  TableName: 'folds2',
+export const getSingleFold = (id, ownerId) => dynamoDB.get({
+  TableName: 'folds',
   Key: {
-    id
+    id,
+    ownerId,
   }
 }).promise().then(data => data.Item)
 
 // KeyConditionExpression is to get around reserved words. See:
 // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html
-export const getFoldsByOwner = (ownerId) => dynamoDB.query({
-  TableName: 'folds2',
-  KeyConditionExpression: "#yr = :yyyy",
-  ExpressionAttributeNames:{
-    "#yr": "ownerId"
-  },
+export const getFoldsByOwner = (ownerId) => dynamoDB.scan({
+  TableName: 'folds',
+  FilterExpression: "ownerId = :o",
   ExpressionAttributeValues: {
-    ":yyyy": ownerId
+    ":o": ownerId
   }
 }).promise().then(data => data.Items)
 
