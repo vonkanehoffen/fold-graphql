@@ -11,10 +11,10 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const params = {
   TableName: "folds",
   Item: {
-    "id": "2a",
-    "ownerId": "11b",
-    "title": "Wotsit2",
-    "address":  "thingy2.com",
+    "id": "sdfsdfsdf",
+    "ownerId": "a9",
+    "title": "Fred thing",
+    "address":  "thingydasdasa2.com",
   }
 };
 

@@ -38,7 +38,8 @@ const typeDefs = `
   }
 
   type Query {
-    getFold(id: String!, ownerId: String): [Fold]
+    getFolds: [Fold]
+    getFold(id: String!, ownerId: String): Fold
     getTag(slug: String!): Tag
     getAuthor(id: String!): Author
   }
@@ -48,9 +49,10 @@ const typeDefs = `
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    getFold: (root, args, context) => {
+    getFolds: () => db.allFolds(),
+    getFold: (_, {id, ownerId}) => {
       // return foldsDB.find(f => f.id == args.id)
-      return db.getFoldById(args.id, args.ownerId)
+      return db.getSingleFold(id, ownerId)
     },
     getTag: (_, {slug}) => tagsDB.find(t => t.slug == slug),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
@@ -83,7 +85,11 @@ const resolvers = {
     }
   },
   Author: {
-    folds: (author) => foldsDB.filter(f => f.ownerId === author.id)
+    folds: (author) => {
+			console.log(author.id)
+      return db.getFoldsByOwner(author.id)
+      // return foldsDB.filter(f => f.ownerId === author.id)
+    }
   }
 };
 

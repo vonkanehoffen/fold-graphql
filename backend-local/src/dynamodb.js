@@ -10,7 +10,10 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 export function scan(params) {
   return new Promise((resolve, reject) =>
     dynamoDb.scan(params).promise()
-      .then(data => resolve(data.Items))
+      .then(data => {
+        console.log(data)
+        resolve(data.Items)
+      })
       .catch(err => reject(err)),
   );
 }
@@ -18,16 +21,20 @@ export function scan(params) {
 export function get(params) {
   return new Promise((resolve, reject) =>
     dynamoDb.get(params).promise()
-      .then(data => resolve(data.Item))
+      .then(data => {
+        console.log(data)
+        resolve(data.Item)
+      })
       .catch(err => reject(err)),
   );
 }
 
 export function query(params) {
+  console.log("doing ddb query")
   return new Promise((resolve, reject) =>
     dynamoDb.query(params).promise()
       .then(data => {
-        console.log(data.Items)
+        console.log(data)
         return resolve(data.Items)
       })
       .catch(err => reject(err)),
