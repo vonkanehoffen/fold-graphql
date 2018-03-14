@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk'
 import uuid from 'uuid/v1'
+import faker from 'faker'
 
 AWS.config.update({
   region: 'us-east-1',
@@ -9,19 +10,20 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const params = {
-  TableName: "folds",
+  TableName: "folds2",
   Item: {
-    "id": "sdfsdfsdf",
+    "id": uuid(),
     "ownerId": "a9",
-    "title": "Fred thing",
-    "address":  "thingydasdasa2.com",
+    "title": faker.company.companyName(),
+    "address":  faker.internet.url(),
+    "tags": ['meat', 'pies']
   }
 };
 
 docClient.put(params, function(err, data) {
   if (err) {
-    console.error("Unable to add movie", params.Item.title, ". Error JSON:", JSON.stringify(err, null, 2));
+    console.error("Unable to add movie", params.Item, ". Error JSON:", JSON.stringify(err, null, 2));
   } else {
-    console.log("PutItem succeeded:", params.Item.title);
+    console.log("PutItem succeeded:", params.Item);
   }
 });
