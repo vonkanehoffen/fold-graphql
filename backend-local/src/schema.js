@@ -17,6 +17,8 @@ const typeDefs = `
     title: String
     address: String
     tags: [Tag]
+    createdAt: String
+    updatedAt: String
   }
   type Mutation {
     createFold(
@@ -28,6 +30,7 @@ const typeDefs = `
   type Tag {
 		slug: String!
     name: String!
+    ownerId: String!
 		folds: [Fold]
   }
   type Author {
@@ -41,6 +44,7 @@ const typeDefs = `
     getFolds: [Fold]
     getFold(id: String!, ownerId: String!): Fold
     getTag(slug: String!): Tag
+    getTags: [Tag]
     getAuthor(id: String!): Author
   }
 `;
@@ -52,22 +56,11 @@ const resolvers = {
     getFolds: () => db.allFolds(),
     getFold: (_, {id, ownerId}) => db.getSingleFold(id, ownerId),
     getTag: (_, {slug}) => tagsDB.find(t => t.slug == slug),
+    getTags: () => db.allTags(),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
   },
   Mutation: {
-    createFold: (_, {title, address, tags}) => {
-      const fold = {
-        id: uuid(),
-        ownerId: '1a',
-        title,
-        address,
-        tags,
-      }
-
-      foldsDB.push(fold)
-      console.log(foldsDB)
-      return fold
-    }
+    createFold: (_, {title, address, tags}) => db.createFold(title, address, tags)
   },
   Fold: {
     tags: (root, args, context) => {
