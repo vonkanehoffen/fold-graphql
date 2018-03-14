@@ -1,12 +1,7 @@
-// Welcome to Launchpad!
-// Log in to edit and save pads, run queries in GraphiQL on the right.
-// Click "Download" above to get a zip with a standalone Node.js server.
-// See docs and examples at https://github.com/apollographql/awesome-launchpad
-
-// graphql-tools combines a schema string with resolvers.
 import { makeExecutableSchema } from 'graphql-tools';
 import uuid from 'uuid/v1'
 import * as db from './db'
+import { fakeOwnerId } from './config'
 
 // Construct a schema, using GraphQL schema language
 // language=GraphQL Schema
@@ -41,10 +36,12 @@ const typeDefs = `
   }
 
   type Query {
-    getFolds: [Fold]
+    getAllFolds: [Fold]
     getFold(id: String!, ownerId: String!): Fold
-    getTag(slug: String!): Tag
-    getTags: [Tag]
+      
+    getAllTags: [Tag]
+    getTag(slug: String!, ownerId: String!): Tag
+      
     getAuthor(id: String!): Author
   }
 `;
@@ -53,23 +50,24 @@ const typeDefs = `
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    getFolds: () => db.allFolds(),
+    getAllFolds: () => db.allFolds(),
     getFold: (_, {id, ownerId}) => db.getSingleFold(id, ownerId),
-    getTag: (_, {slug}) => tagsDB.find(t => t.slug == slug),
-    getTags: () => db.allTags(),
+    getTag: (_, {slug, ownerId}) => db.getSingleTag(slug, ownerId),
+    getAllTags: () => db.allTags(),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
   },
   Mutation: {
     createFold: (_, {title, address, tags}) => db.createFold(title, address, tags)
   },
   Fold: {
-    tags: (root, args, context) => {
-      return root.tags && root.tags.map(t => tagsDB.find(tag => tag.slug === t))
-    }
+    tags: (fold) => fold.tags && db.getMultipleTags(fold.tags, fold.ownerId).then(data => data.Responses.tags)
+    // tags: (root, args, context) => {
+    //   return root.tags && root.tags.map(t => tagsDB.find(tag => tag.slug === t))
+    // }
   },
   Tag: {
     folds: (tag) => {
-    	return foldsDB.filter(f => {
+      return foldsDB.filter(f => {
         return f.tags.includes(tag.slug)
       })
     }
