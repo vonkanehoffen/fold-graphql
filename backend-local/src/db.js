@@ -11,6 +11,8 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.04.html
 
+const slugify = (str) => str.replace(/ +/g, '-').toLowerCase()
+
 /**
  * Get all folds in existence.
  * Should probably limit this...
@@ -31,7 +33,10 @@ export const getSingleFold = (id, ownerId) => dynamoDB.get({
     id,
     ownerId,
   }
-}).promise().then(data => data.Item)
+}).promise().then(data => {
+  console.log(data)
+  return data.Item
+})
 
 /**
  * Get all a user's folds
@@ -96,7 +101,7 @@ export const createFold = (title, address, tags) => {
     ownerId: fakeOwnerId,
     title,
     address,
-    tags,
+    tags: tags.map(tag => slugify(tag)),
     createdAt: timestamp,
     updatedAt: timestamp,
   }
@@ -113,7 +118,7 @@ export const createFold = (title, address, tags) => {
         {
           PutRequest: {
             Item: {
-              slug: tag.replace(/ +/g, '-').toLowerCase(), // Partition key
+              slug: slugify(tag), // Partition key
               ownerId: fakeOwnerId, // Sort key
               name: tag,
             }
