@@ -163,24 +163,50 @@ export const createFold = (title, address, tags) => {
   })
 }
 
-// TODO: Validate thtat there has to be a tag?
-// Update tags table as well
+//
+//
+/**
+ * Update fold
+ * Note dynamoDB doesn't like empty attribute update keys, hence the for...in
+ *
+ * TODO: Validate that there has to be a tag?
+ * TODO: Update tags table as well
+ *
+ * @param id
+ * @param ownerId
+ * @param title
+ * @param address
+ * @param tags
+ */
+export const updateFold = (id, ownerId, title, address, tags) => {
+  let AttributeUpdates= {
+    updatedAt: {Action: 'PUT', Value: new Date().getTime()},
+  }
+  const attrs = {title, address, tags}
+  for(let k in attrs) {
+    if(attrs[k]) {
+      AttributeUpdates[k] = {Action: 'PUT', Value: attrs[k]}
+    }
+  }
 
-export const updateFold = (id, ownerId, title, address, tags) => dynamoDB.update({
-  TableName: 'folds',
-  Key: {
-    id, ownerId,
-  },
-  UpdateExpression: 'SET title = :title, address = :address, tags = :tags, updatedAt = :updatedAt',
-  ExpressionAttributeValues:{
-    ':title': title,
-    ':address': address,
-    ':tags': tags,
-    ':updatedAt': new Date().getTime(),
-  },
-  ReturnValues: 'ALL_NEW',
-}).promise()
+  const params = {
+    TableName: 'folds',
+    Key: {
+      id, ownerId,
+    },
+    AttributeUpdates,
+    ReturnValues: 'ALL_NEW',
+  }
 
+  return dynamoDB.update(params).promise()
+}
+
+/**
+ * Delete a fold
+ *
+ * @param id
+ * @param ownerId
+ */
 export const deleteFold = (id, ownerId) => dynamoDB.delete({
   TableName: 'folds',
   Key: {

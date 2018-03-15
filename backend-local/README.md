@@ -25,7 +25,7 @@ Setup tables:
 babel-node src/setup/createTables.js
 ```
 
-
+See [here](https://stackoverflow.com/questions/45842363/dynamodb-updateitem-ignore-null-values-in-expressionattributevalues) for enabling logging on local
 
 Happy hacking!
 
