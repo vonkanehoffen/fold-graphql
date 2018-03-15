@@ -10,7 +10,12 @@ const resolvers = {
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
   },
   Mutation: {
-    createFold: (_, {title, address, tags}) => db.createFold(title, address, tags)
+    createFold: (_, {title, address, tags}) =>
+      db.createFold(title, address, tags),
+    updateFold: (_, {id, ownerId, title, address, tags}) =>
+      db.updateFold(id, ownerId, title, address, tags).then(data => data.Attributes),
+    deleteFold: (_, {id, ownerId}) =>
+      db.deleteFold(id, ownerId),
   },
   Fold: {
     tags: (fold) => fold.tags && db.getMultipleTags(fold.tags, fold.ownerId).then(data => data.Responses.tags)
@@ -34,16 +39,6 @@ const resolvers = {
   }
 };
 
-const foldsDB = [
-  { id: 1, ownerId: '1a', title: 'Lorem Ipsum', address: 'http://lipsum.com', tags: ['foo', 'bar'] },
-  { id: 2, ownerId: '2c', title: 'Dolor Sit', address: 'http://dolor.com', tags: ['foo', 'sheep'] },
-  { id: 3, ownerId: '2c', title: 'Quivactus Wotsit', address: 'http://wosit.com', tags: ['foo'] },
-]
-const tagsDB = [
-  { slug: 'foo', name: 'Foo' },
-  { slug: 'bar', name: 'Bar' },
-  { slug: 'sheep', name: 'Sheep baaaa' },
-]
 const authorsDB = [
   { id: '1a', name: 'Kane', email: 'kane@kane.com' },
   { id: '2c', name: 'Bob', email: 'bob@bloke.com' },

@@ -80,6 +80,11 @@ Scan with filter... right way to do it? Or query on GSI
 Reserved words.... already used owner...
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html
 
+Get started with JS API:
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.01.html
+
+Document Client: 
+https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html
 
 ```
 aws dynamodb scan \

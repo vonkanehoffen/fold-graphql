@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import uuid from 'uuid/v1'
+import _ from 'lodash'
 import { fakeOwnerId } from './config'
 
 AWS.config.update({
@@ -56,7 +57,12 @@ export const getFoldsByOwner = (ownerId) => dynamoDB.scan({
   }
 }).promise().then(data => data.Items)
 
-
+/**
+ * Get folds by tag
+ * We scan because owner is just the sort key.
+ * @param slug
+ * @param ownerId
+ */
 export const getFoldsByTag = (slug, ownerId) => dynamoDB.scan({
   TableName: 'folds',
   FilterExpression: "contains (tags, :tag) AND #o = :owner",
@@ -114,6 +120,7 @@ export const getMultipleTags = (tags, ownerId) => {
  */
 export const createFold = (title, address, tags) => {
   const timestamp = new Date().getTime()
+  tags = _.uniq(tags)
   const Item = {
     id: uuid(),
     ownerId: fakeOwnerId,
@@ -155,6 +162,32 @@ export const createFold = (title, address, tags) => {
     }
   })
 }
+
+// TODO: Validate thtat there has to be a tag?
+// Update tags table as well
+
+export const updateFold = (id, ownerId, title, address, tags) => dynamoDB.update({
+  TableName: 'folds',
+  Key: {
+    id, ownerId,
+  },
+  UpdateExpression: 'SET title = :title, address = :address, tags = :tags, updatedAt = :updatedAt',
+  ExpressionAttributeValues:{
+    ':title': title,
+    ':address': address,
+    ':tags': tags,
+    ':updatedAt': new Date().getTime(),
+  },
+  ReturnValues: 'ALL_NEW',
+}).promise()
+
+export const deleteFold = (id, ownerId) => dynamoDB.delete({
+  TableName: 'folds',
+  Key: {
+    id, ownerId,
+  },
+}).promise()
+
 
 // this works...
 // export function getFoldById(id, ownerId) {

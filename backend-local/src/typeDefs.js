@@ -2,7 +2,7 @@
 // language=GraphQL Schema
 const typeDefs = `
 	type Fold {
-		id: String!
+		id: ID!
 		ownerId: String!
     title: String
     address: String
@@ -15,7 +15,17 @@ const typeDefs = `
       title: String!
       address: String!
       tags: [String!]
-    ): Fold!
+    ): Fold
+
+    updateFold(
+      id: ID!
+      ownerId: String!
+      title: String
+      address: String
+      tags: [String]
+    ): Fold
+
+    deleteFold(id: ID!, ownerId: String!): Fold
   }
   type Tag {
 		slug: String!
@@ -24,7 +34,7 @@ const typeDefs = `
 		folds: [Fold]
   }
   type Author {
-		id: String!
+		id: ID!
     name: String!
     email: String
     folds: [Fold]
@@ -32,12 +42,12 @@ const typeDefs = `
 
   type Query {
     getAllFolds: [Fold]
-    getFold(id: String!, ownerId: String!): Fold
+    getFold(id: ID!, ownerId: ID!): Fold
       
     getAllTags: [Tag]
-    getTag(slug: String!, ownerId: String!): Tag
+    getTag(slug: String!, ownerId: ID!): Tag
       
-    getAuthor(id: String!): Author
+    getAuthor(id: ID!): Author
   }
 `;
 

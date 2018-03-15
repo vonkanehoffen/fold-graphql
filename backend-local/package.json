@@ -28,6 +28,7 @@
     "graphql": "^0.12.3",
     "graphql-extensions": "^0.0.5",
     "graphql-tools": "^2.15.0",
+    "lodash": "^4.17.5",
     "uuid": "^3.2.1",
     "webtask-tools": "^3.2.0"
   }
