@@ -86,6 +86,12 @@ https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.
 Document Client: 
 https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html
 
+Could (CloudSearch)[https://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching-dynamodb-data.html] be good?
+No. That and Elastic search are basically EC2 instances, not billed per request.
+
+Stream user info to dynaodb table?
+(Cognito Kinesis Streams)[https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-streams.html]
+
 ```
 aws dynamodb scan \
 --table-name folds \

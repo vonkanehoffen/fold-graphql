@@ -12,8 +12,6 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.04.html
 
-const slugify = (str) => str.replace(/ +/g, '-').toLowerCase()
-
 /**
  * Get all folds in existence.
  * Should probably limit this...
@@ -60,17 +58,17 @@ export const getFoldsByOwner = (ownerId) => dynamoDB.scan({
 /**
  * Get folds by tag
  * We scan because owner is just the sort key.
- * @param slug
+ * @param tag
  * @param ownerId
  */
-export const getFoldsByTag = (slug, ownerId) => dynamoDB.scan({
+export const getFoldsByTag = (tag, ownerId) => dynamoDB.scan({
   TableName: 'folds',
   FilterExpression: "contains (tags, :tag) AND #o = :owner",
   ExpressionAttributeNames: {
     "#o": "ownerId"
   },
   ExpressionAttributeValues: {
-    ":tag": slug,
+    ":tag": tag,
     ":owner": ownerId
   },
 }).promise()
@@ -86,13 +84,13 @@ export const allTags = () => dynamoDB.scan({
 /**
  * Get a single tag.
  * slug and ownerID are both needed - composite primary key again.
- * @param slug
+ * @param name
  * @param ownerId
  */
-export const getSingleTag = (slug, ownerId) => dynamoDB.get({
+export const getSingleTag = (name, ownerId) => dynamoDB.get({
   TableName: 'tags',
   Key: {
-    slug,
+    name,
     ownerId,
   }
 }).promise().then(data => data.Item)
@@ -102,12 +100,13 @@ export const getMultipleTags = (tags, ownerId) => {
     RequestItems: {
       'tags': {
         Keys: tags.map(tag => ({
-          slug: tag,
+          name: tag,
           ownerId
         }))
       }
     }
   }
+  console.log("doing getMutiple", params)
   return dynamoDB.batchGet(params).promise()
 }
 
@@ -126,7 +125,7 @@ export const createFold = (title, address, tags) => {
     ownerId: fakeOwnerId,
     title,
     address,
-    tags: tags.map(tag => slugify(tag)),
+    tags: tags,
     createdAt: timestamp,
     updatedAt: timestamp,
   }
@@ -139,13 +138,13 @@ export const createFold = (title, address, tags) => {
           }
         }
       ],
-      tags: tags.map(tag => ( // TODO: This overwrites if slug matches... good or bad? Drop the slug? Case sensitivity tho
+      tags: tags.map(tag => (
         {
           PutRequest: {
             Item: {
-              slug: slugify(tag), // Partition key
+              name: tag, // Partition key ...even though this is now case sensitive, UI can avoid conflicts.
               ownerId: fakeOwnerId, // Sort key
-              name: tag,
+              slug: tag.replace(/ +/g, '-').toLowerCase(), // This will be used for search / urls maybe?
             }
           }
         }

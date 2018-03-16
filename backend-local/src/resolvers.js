@@ -18,7 +18,10 @@ const resolvers = {
       db.deleteFold(id, ownerId),
   },
   Fold: {
-    tags: (fold) => fold.tags && db.getMultipleTags(fold.tags, fold.ownerId).then(data => data.Responses.tags)
+    // TODO: This works but requires loads of DB queries. How best to localize tags?
+    // Do we want the display name stored with the fold, then the extra data available on request somehow?
+    tags: (fold) => fold.tags.map(t => ({ name: t, slug: t.toLowerCase(), ownerId: fold.ownerId }))
+    // tags: (fold) => fold.tags && db.getMultipleTags(fold.tags, fold.ownerId).then(data => data.Responses.tags)
     // tags: (root, args, context) => {
     //   return root.tags && root.tags.map(t => tagsDB.find(tag => tag.slug === t))
     // }
@@ -28,7 +31,7 @@ const resolvers = {
       // return foldsDB.filter(f => {
       //   return f.tags.includes(tag.slug)
       // })
-      return db.getFoldsByTag(tag.slug, tag.ownerId).then(data => data.Items)
+      return db.getFoldsByTag(tag.name, tag.ownerId).then(data => data.Items)
     }
   },
   Author: {

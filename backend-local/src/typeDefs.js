@@ -28,8 +28,8 @@ const typeDefs = `
     deleteFold(id: ID!, ownerId: String!): Fold
   }
   type Tag {
-		slug: String!
     name: String!
+    slug: String!
     ownerId: String!
 		folds: [Fold]
   }

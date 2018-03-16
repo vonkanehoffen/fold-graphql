@@ -33,11 +33,11 @@ dynamoDB.deleteTable({ TableName: 'tags' }).promise()
     dynamoDB.createTable({
       TableName : 'tags',
       KeySchema: [
-        { AttributeName: 'slug', KeyType: 'HASH'},  // Partition key
+        { AttributeName: 'name', KeyType: 'HASH'},  // Partition key
         { AttributeName: 'ownerId', KeyType: 'RANGE' }  // Sort key
       ],
       AttributeDefinitions: [
-        { AttributeName: 'slug', AttributeType: 'S' },
+        { AttributeName: 'name', AttributeType: 'S' },
         { AttributeName: 'ownerId', AttributeType: 'S' }
       ],
       ProvisionedThroughput: {
@@ -47,7 +47,7 @@ dynamoDB.deleteTable({ TableName: 'tags' }).promise()
     }).promise().then(res => console.log(res))
   })
 
-dynamoDB.deleteTable({ TableName: 'users' }).promise().then(res => console.log(res))
+// dynamoDB.deleteTable({ TableName: 'users' }).promise().then(res => console.log(res))
 
 
 
