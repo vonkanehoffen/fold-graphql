@@ -18,13 +18,16 @@ const resolvers = {
       db.deleteFold(id, ownerId),
   },
   Fold: {
-    // TODO: This works but requires loads of DB queries. How best to localize tags?
-    // Do we want the display name stored with the fold, then the extra data available on request somehow?
-    tags: (fold) => fold.tags.map(t => ({ name: t, slug: t.toLowerCase(), ownerId: fold.ownerId }))
+    // TODO: Figure out the gest way of doing this.
+    tags: (fold) => fold.tags.map(t => (
+      {
+        name: t,
+        slug: t.toLowerCase(),
+        ownerId: fold.ownerId
+      }))
+    // This works but requires loads of DB queries:
     // tags: (fold) => fold.tags && db.getMultipleTags(fold.tags, fold.ownerId).then(data => data.Responses.tags)
-    // tags: (root, args, context) => {
-    //   return root.tags && root.tags.map(t => tagsDB.find(tag => tag.slug === t))
-    // }
+    // Should that whole tags table be a GSI somehow? ...and hence the format ignored in this data? Just a simple array of terms?
   },
   Tag: {
     folds: (tag) => {

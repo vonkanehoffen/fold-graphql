@@ -10,6 +10,8 @@ AWS.config.update({
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
+export const slugify = s => s.replace(/ +/g, '-').toLowerCase()
+
 // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.04.html
 
 /**
@@ -144,7 +146,7 @@ export const createFold = (title, address, tags) => {
             Item: {
               name: tag, // Partition key ...even though this is now case sensitive, UI can avoid conflicts.
               ownerId: fakeOwnerId, // Sort key
-              slug: tag.replace(/ +/g, '-').toLowerCase(), // This will be used for search / urls maybe?
+              slug: slugify(tag), // This will be used for search / urls maybe?
             }
           }
         }
