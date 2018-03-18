@@ -44,7 +44,7 @@ const cache = new InMemoryCache({
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://7r4nx53sz1.execute-api.us-east-1.amazonaws.com/dev/graphql',
+    uri: 'https://yub0gbdptg.execute-api.us-east-1.amazonaws.com/dev/graphql',
     fetch: authedFetch,
   }),
   cache,

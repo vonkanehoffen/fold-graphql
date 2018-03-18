@@ -7,8 +7,8 @@ import {
 
 
 const userPool = new CognitoUserPool({
-  UserPoolId: 'us-east-1_RfJtclQOy', // TODO: Set environment vars in serverless.yml
-  ClientId: '3h07oc3tf00rgud46ss713j40i',
+  UserPoolId: 'us-east-1_qayWwJ35i', // TODO: Set environment vars in serverless.yml
+  ClientId: '62t05ai42nmqq3r1s62kht48ik',
 })
 
 /**

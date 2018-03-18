@@ -1,7 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import uuid from 'uuid/v1'
 import * as db from './db'
-import { fakeOwnerId } from './config'
+import { devOwnerId } from './config'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 

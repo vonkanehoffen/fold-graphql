@@ -1,16 +1,17 @@
-import AWS from 'aws-sdk';
+import AWS from 'aws-sdk'
 import uuid from 'uuid/v1'
 import _ from 'lodash'
-import { fakeOwnerId } from './config'
+import {getOwnerId, slugify} from './helpers'
 
-AWS.config.update({
-  region: 'us-east-1',
-  endpoint: 'http://localhost:8000',
-})
+// If we're running on local, use local DynamoDB
+if(!process.env.AWS_EXECUTION_ENV) {
+  AWS.config.update({
+    region: 'us-east-1',
+    endpoint: 'http://localhost:8000',
+  })
+}
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-
-export const slugify = s => s.replace(/ +/g, '-').toLowerCase()
 
 // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.04.html
 
@@ -35,7 +36,6 @@ export const getSingleFold = (id, ownerId) => dynamoDB.get({
     ownerId,
   }
 }).promise().then(data => {
-  console.log(data)
   return data.Item
 })
 
@@ -118,13 +118,15 @@ export const getMultipleTags = (tags, ownerId) => {
  * @param title
  * @param address
  * @param tags
+ * @param context
  */
-export const createFold = (title, address, tags) => {
+export const createFold = (title, address, tags, context) => {
   const timestamp = new Date().getTime()
   tags = _.uniq(tags)
+  const ownerId = getOwnerId(context)
   const Item = {
     id: uuid(),
-    ownerId: fakeOwnerId,
+    ownerId,
     title,
     address,
     tags: tags,
@@ -145,7 +147,7 @@ export const createFold = (title, address, tags) => {
           PutRequest: {
             Item: {
               name: tag, // Partition key ...even though this is now case sensitive, UI can avoid conflicts.
-              ownerId: fakeOwnerId, // Sort key
+              ownerId, // Sort key
               slug: slugify(tag), // This will be used for search / urls maybe?
             }
           }
@@ -178,8 +180,9 @@ export const createFold = (title, address, tags) => {
  * @param title
  * @param address
  * @param tags
+ * @param context
  */
-export const updateFold = (id, ownerId, title, address, tags) => {
+export const updateFold = (id, ownerId, title, address, tags, context) => {
   let AttributeUpdates= {
     updatedAt: {Action: 'PUT', Value: new Date().getTime()},
   }
@@ -207,8 +210,9 @@ export const updateFold = (id, ownerId, title, address, tags) => {
  *
  * @param id
  * @param ownerId
+ * @param context
  */
-export const deleteFold = (id, ownerId) => dynamoDB.delete({
+export const deleteFold = (id, ownerId, context) => dynamoDB.delete({
   TableName: 'folds',
   Key: {
     id, ownerId,

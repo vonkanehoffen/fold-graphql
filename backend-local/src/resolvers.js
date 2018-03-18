@@ -10,12 +10,12 @@ const resolvers = {
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
   },
   Mutation: {
-    createFold: (_, {title, address, tags}) =>
-      db.createFold(title, address, tags),
-    updateFold: (_, {id, ownerId, title, address, tags}) =>
-      db.updateFold(id, ownerId, title, address, tags).then(data => data.Attributes),
-    deleteFold: (_, {id, ownerId}) =>
-      db.deleteFold(id, ownerId),
+    createFold: (_, {title, address, tags}, context) =>
+      db.createFold(title, address, tags, context),
+    updateFold: (_, {id, ownerId, title, address, tags}, context) =>
+      db.updateFold(id, ownerId, title, address, tags, context).then(data => data.Attributes),
+    deleteFold: (_, {id, ownerId}, context) =>
+      db.deleteFold(id, ownerId, context),
   },
   Fold: {
     // TODO: Figure out the gest way of doing this.
