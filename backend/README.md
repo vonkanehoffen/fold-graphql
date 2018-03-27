@@ -27,11 +27,8 @@ babel-node src/setup/createTables.js
 
 See [here](https://stackoverflow.com/questions/45842363/dynamodb-updateitem-ignore-null-values-in-expressionattributevalues) for enabling logging on local
 
-Happy hacking!
 
-The Apollo team :)
-
-#GraphQL queries
+#GraphQL sample queries
 ```
 query allFolds {
   getAllFolds {
@@ -113,3 +110,7 @@ mutation delete {
   }
 }
 ```
+
+## Test Accounts
+
+geoff / luzojapi@emailsy.info / badger123123
