@@ -3,9 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "apollo-boost": "^0.1.4",
+    "aws-amplify": "^0.2.11",
+    "aws-amplify-react": "^0.1.36",
+    "downshift": "^1.31.2",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.8.0",
+    "match-sorter": "^2.2.1",
+    "material-ui": "1.0.0-beta.38",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "normalize.css": "^8.0.0",
+    "react": "16.3.0-alpha.3",
+    "react-apollo": "^2.1.1",
+    "react-dom": "16.3.0-alpha.3",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "styled-components": "^3.2.3"
   },
   "scripts": {
     "start": "react-scripts start",

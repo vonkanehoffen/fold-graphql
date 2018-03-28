@@ -1,0 +1,2 @@
+export const SESSION_LOADING = 'SESSION_LOADING'
+export const NOT_LOGGED_IN = 'NOT_LOGGED_IN'
