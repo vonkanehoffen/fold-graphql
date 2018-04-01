@@ -4,11 +4,14 @@ import styled from 'styled-components'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import {SESSION_LOADING, SessionContext} from '../containers/SessionContext'
+import CreateFold from '../containers/CreateFold'
+import FoldCard from '../components/FoldCard'
 
-const GET_FOLDS = gql`
-  query getAllFolds {
-    getAllFolds {
+export const GET_FOLDS = gql`
+  query getAllMyFolds {
+    getAllMyFolds {
       id
+      ownerId
       title
       address
       tags {
@@ -18,28 +21,30 @@ const GET_FOLDS = gql`
     }
   }
 `
-const Home = (props) => {
+const Home = ({session}) => {
   return (
-    <SessionContext.Consumer>
-      {session =>
-        <div>
-          <h1>Home</h1>
-          <Query query={GET_FOLDS} variables={{ownerId: session}}>
-            {({ loading, error, data }) => {
-              if (loading) return <div>Loading...</div>;
-              if (error) return <div>Error :(</div>;
+    <div>
+      <h1>Home</h1>
+      <Query query={GET_FOLDS}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>Error :(</div>;
 
-              return (
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-              )
-            }}
-          </Query>
-        </div>
-      }
-    </SessionContext.Consumer>
+          console.log(data)
+          return (
+            <div>
+              {data.getAllMyFolds && data.getAllMyFolds.map(f => <FoldCard fold={f} key={f.id}/> )}
+            </div>
+          )
+        }}
+      </Query>
+      <CreateFold session={session}/>
+    </div>
   )
 }
 
-Home.propTypes = {}
+Home.propTypes = {
+  session: PropTypes.object.isRequired,
+}
 
 export default Home

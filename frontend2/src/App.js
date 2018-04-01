@@ -56,12 +56,13 @@ class App extends Component {
   }
 
   render() {
+    const { session } = this.state
 
-    if(this.state.session === SESSION_LOADING) return (
+    if(session === SESSION_LOADING) return (
       <Loading/>
     )
 
-    if(this.state.session === NOT_LOGGED_IN) return (
+    if(session === NOT_LOGGED_IN) return (
       <Authorizer setSession={this.setSession}/>
     )
     
@@ -69,9 +70,9 @@ class App extends Component {
       <ApolloProvider client={client}>
         <BrowserRouter>
           <div id="App">
-            <NavBar session={this.state.session} setSession={this.setSession}/>
+            <NavBar session={session} setSession={this.setSession}/>
             <Switch>
-              <Route path="/" component={Home} />{/* Logged in users */}
+              <Route path="/" render={props => <Home {...{session}} {...props}/>}/>{/* Logged in users */}
               <Route component={NotFound} />
             </Switch>
           </div>

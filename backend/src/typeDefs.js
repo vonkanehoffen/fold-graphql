@@ -48,6 +48,9 @@ const typeDefs = `
     getTag(slug: String!, ownerId: ID!): Tag
       
     getAuthor(id: ID!): Author
+    
+    getAllMyFolds: [Fold]
+    getAllMyTags: [Tag]
   }
 `;
 

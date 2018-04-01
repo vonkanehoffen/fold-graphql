@@ -114,3 +114,6 @@ mutation delete {
 ## Test Accounts
 
 geoff / luzojapi@emailsy.info / badger123123
+billybob / catscatscats@carbtc.net / badger123123
+patula / catscatscats@carbtc.net / badger123123
+kane / eHYhfBUurYXPiN8JmFwh

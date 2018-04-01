@@ -109,14 +109,14 @@ function getSuggestions(inputValue) {
 class DownshiftMultiple extends React.Component {
   state = {
     inputValue: '',
-    selectedItem: [],
+    selectedItems: [],
   };
 
   handleKeyDown = event => {
-    const { inputValue, selectedItem } = this.state;
-    if (selectedItem.length && !inputValue.length && keycode(event) === 'backspace') {
+    const { inputValue, selectedItems } = this.state;
+    if (selectedItems.length && !inputValue.length && keycode(event) === 'backspace') {
       this.setState({
-        selectedItem: selectedItem.slice(0, selectedItem.length - 1),
+        selectedItems: selectedItems.slice(0, selectedItems.length - 1),
       });
     }
   };
@@ -126,37 +126,40 @@ class DownshiftMultiple extends React.Component {
   };
 
   handleChange = item => {
-    let { selectedItem } = this.state;
+    let { selectedItems } = this.state;
 
-    if (selectedItem.indexOf(item) === -1) {
-      selectedItem = [...selectedItem, item];
+    if (selectedItems.indexOf(item) === -1) {
+      selectedItems = [...selectedItems, item];
     }
 
     this.setState({
       inputValue: '',
-      selectedItem,
+      selectedItems,
     });
+    console.log('set tags...', selectedItems)
+    this.props.setTags(selectedItems)
   };
 
   handleDelete = item => () => {
-    const selectedItem = [...this.state.selectedItem];
-    selectedItem.splice(selectedItem.indexOf(item), 1);
+    const selectedItems = [...this.state.selectedItems];
+    selectedItems.splice(selectedItems.indexOf(item), 1);
 
-    this.setState({ selectedItem });
+    this.setState({ selectedItems });
+    this.props.setTags(selectedItems)
   };
 
   render() {
     const { classes } = this.props;
-    const { inputValue, selectedItem } = this.state;
+    const { inputValue, selectedItems } = this.state;
 
     return (
-      <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedItem}>
+      <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedItems}>
         {({
             getInputProps,
             getItemProps,
             isOpen,
-            inputValue: inputValue2,
-            selectedItem: selectedItem2,
+            inputValue,
+            selectedItem,
             highlightedIndex,
           }) => (
           <div className={classes.container}>
@@ -164,7 +167,7 @@ class DownshiftMultiple extends React.Component {
               fullWidth: true,
               classes,
               InputProps: getInputProps({
-                startAdornment: selectedItem.map(item => (
+                startAdornment: selectedItems.map(item => (
                   <Chip
                     key={item}
                     tabIndex={-1}
@@ -181,13 +184,13 @@ class DownshiftMultiple extends React.Component {
             })}
             {isOpen ? (
               <Paper className={classes.paper} square>
-                {getSuggestions(inputValue2).map((suggestion, index) =>
+                {getSuggestions(inputValue).map((suggestion, index) =>
                   renderSuggestion({
                     suggestion,
                     index,
                     itemProps: getItemProps({ item: suggestion.label }),
                     highlightedIndex,
-                    selectedItem: selectedItem2,
+                    selectedItem,
                   }),
                 )}
               </Paper>

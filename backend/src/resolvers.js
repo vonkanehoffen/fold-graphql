@@ -1,5 +1,6 @@
 // Provide resolver functions for your schema fields
 import * as db from './db'
+import {getOwnerId} from './helpers'
 
 const resolvers = {
   Query: {
@@ -8,6 +9,11 @@ const resolvers = {
     getTag: (_, {slug, ownerId}) => db.getSingleTag(slug, ownerId),
     getAllTags: () => db.allTags(),
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
+
+    getAllMyFolds: (_, args, context) => {
+      console.log('owner:', getOwnerId(context))
+      return db.getFoldsByOwner(getOwnerId(context))
+    }
   },
   Mutation: {
     createFold: (_, {title, address, tags}, context) =>
