@@ -76,7 +76,7 @@ class CreateFold extends Component {
               value={this.state.address}
               onChange={this.setProperty}
             />
-            <TagSelect setTags={this.setTags}/>
+            <TagSelect selectedTags={this.state.tags} setTags={this.setTags}/>
             <Button variant="raised" onClick={() => {
               const { title, address, tags } = this.state
               const ownerId = this.props.session.idToken.payload['cognito:username']

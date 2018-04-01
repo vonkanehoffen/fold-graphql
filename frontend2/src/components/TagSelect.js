@@ -109,51 +109,46 @@ function getSuggestions(inputValue) {
 class DownshiftMultiple extends React.Component {
   state = {
     inputValue: '',
-    selectedItems: [],
   };
 
   handleKeyDown = event => {
-    const { inputValue, selectedItems } = this.state;
-    if (selectedItems.length && !inputValue.length && keycode(event) === 'backspace') {
-      this.setState({
-        selectedItems: selectedItems.slice(0, selectedItems.length - 1),
-      });
+    const { inputValue } = this.state
+    const { selectedTags, setTags } = this.props
+    if (selectedTags.length && !inputValue.length && keycode(event) === 'backspace') {
+      setTags(selectedTags.slice(0, selectedTags.length - 1))
     }
-  };
+  }
 
   handleInputChange = event => {
     this.setState({ inputValue: event.target.value });
   };
 
   handleChange = item => {
-    let { selectedItems } = this.state;
+    let { selectedTags } = this.props
 
-    if (selectedItems.indexOf(item) === -1) {
-      selectedItems = [...selectedItems, item];
+    if (selectedTags.indexOf(item) === -1) {
+      selectedTags = [...selectedTags, item];
     }
 
     this.setState({
       inputValue: '',
-      selectedItems,
     });
-    console.log('set tags...', selectedItems)
-    this.props.setTags(selectedItems)
+    console.log('set tags...', selectedTags)
+    this.props.setTags(selectedTags)
   };
 
   handleDelete = item => () => {
-    const selectedItems = [...this.state.selectedItems];
-    selectedItems.splice(selectedItems.indexOf(item), 1);
-
-    this.setState({ selectedItems });
-    this.props.setTags(selectedItems)
+    const selectedTags = [...this.props.selectedTags];
+    selectedTags.splice(selectedTags.indexOf(item), 1);
+    this.props.setTags(selectedTags)
   };
 
   render() {
-    const { classes } = this.props;
-    const { inputValue, selectedItems } = this.state;
+    const { classes, selectedTags } = this.props;
+    const { inputValue } = this.state;
 
     return (
-      <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedItems}>
+      <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedTags}>
         {({
             getInputProps,
             getItemProps,
@@ -167,7 +162,7 @@ class DownshiftMultiple extends React.Component {
               fullWidth: true,
               classes,
               InputProps: getInputProps({
-                startAdornment: selectedItems.map(item => (
+                startAdornment: selectedTags.map(item => (
                   <Chip
                     key={item}
                     tabIndex={-1}
@@ -203,6 +198,8 @@ class DownshiftMultiple extends React.Component {
 }
 
 DownshiftMultiple.propTypes = {
+  setTags: PropTypes.func.isRequired,
+  selectedTags: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
