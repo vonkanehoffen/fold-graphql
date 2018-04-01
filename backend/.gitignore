@@ -1,3 +1,4 @@
 node_modules
 .serverless
 shared-local-instance.db
+.webpack
