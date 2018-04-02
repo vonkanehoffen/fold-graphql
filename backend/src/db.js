@@ -84,6 +84,18 @@ export const allTags = () => dynamoDB.scan({
 }).promise().then(data => data.Items)
 
 /**
+ * Get all tags belonging to user
+ * @param ownerId
+ */
+export const getTagsByOwner = (ownerId) => dynamoDB.scan({
+  TableName: 'tags',
+  FilterExpression: "ownerId = :o",
+  ExpressionAttributeValues: {
+    ":o": ownerId
+  }
+}).promise().then(data => data.Items)
+
+/**
  * Get a single tag.
  * slug and ownerID are both needed - composite primary key again.
  * @param name

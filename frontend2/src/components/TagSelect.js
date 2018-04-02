@@ -7,45 +7,17 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
 import Chip from 'material-ui/Chip';
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
 
+const GET_TAGS = gql`
+  query getAllMyTags {
+    getAllMyTags {
+      name
+    }
+  }
+`
 // See https://material-ui-next.com/demos/autocomplete/
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
-];
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
@@ -66,19 +38,19 @@ function renderInput(inputProps) {
 
 function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
   const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
+  const isSelected = (selectedItem || '').indexOf(suggestion.name) > -1;
 
   return (
     <MenuItem
       {...itemProps}
-      key={suggestion.label}
+      key={suggestion.name}
       selected={isHighlighted}
       component="div"
       style={{
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.label}
+      {suggestion.name}
     </MenuItem>
   );
 }
@@ -90,12 +62,12 @@ renderSuggestion.propTypes = {
   suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 };
 
-function getSuggestions(inputValue) {
+function getSuggestions(inputValue, suggestions) {
   let count = 0;
 
   return suggestions.filter(suggestion => {
     const keep =
-      (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) &&
+      (!inputValue || suggestion.name.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) &&
       count < 5;
 
     if (keep) {
@@ -106,7 +78,7 @@ function getSuggestions(inputValue) {
   });
 }
 
-class DownshiftMultiple extends React.Component {
+class TagSelect extends React.Component {
   state = {
     inputValue: '',
   };
@@ -148,55 +120,62 @@ class DownshiftMultiple extends React.Component {
     const { inputValue } = this.state;
 
     return (
-      <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedTags}>
-        {({
-            getInputProps,
-            getItemProps,
-            isOpen,
-            inputValue,
-            selectedItem,
-            highlightedIndex,
-          }) => (
-          <div className={classes.container}>
-            {renderInput({
-              fullWidth: true,
-              classes,
-              InputProps: getInputProps({
-                startAdornment: selectedTags.map(item => (
-                  <Chip
-                    key={item}
-                    tabIndex={-1}
-                    label={item}
-                    className={classes.chip}
-                    onDelete={this.handleDelete(item)}
-                  />
-                )),
-                onChange: this.handleInputChange,
-                onKeyDown: this.handleKeyDown,
-                placeholder: 'Select tags',
-              }),
-            })}
-            {isOpen ? (
-              <Paper className={classes.paper} square>
-                {getSuggestions(inputValue).map((suggestion, index) =>
-                  renderSuggestion({
-                    suggestion,
-                    index,
-                    itemProps: getItemProps({ item: suggestion.label }),
-                    highlightedIndex,
-                    selectedItem,
-                  }),
-                )}
-              </Paper>
-            ) : null}
-          </div>
-        )}
-      </Downshift>
+      <Query query={GET_TAGS}>
+        {({ loading, error, data: { getAllMyTags } }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>Error :(</div>;
+          return (
+            <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedTags}>
+              {({
+                  getInputProps,
+                  getItemProps,
+                  isOpen,
+                  inputValue,
+                  selectedItem,
+                  highlightedIndex,
+                }) => (
+                <div className={classes.container}>
+                  {renderInput({
+                    fullWidth: true,
+                    classes,
+                    InputProps: getInputProps({
+                      startAdornment: selectedTags.map(item => (
+                        <Chip
+                          key={item}
+                          tabIndex={-1}
+                          label={item}
+                          className={classes.chip}
+                          onDelete={this.handleDelete(item)}
+                        />
+                      )),
+                      onChange: this.handleInputChange,
+                      onKeyDown: this.handleKeyDown,
+                      placeholder: 'Select tags',
+                    }),
+                  })}
+                  {isOpen ? (
+                    <Paper className={classes.paper} square>
+                      {getSuggestions(inputValue, getAllMyTags).map((suggestion, index) =>
+                        renderSuggestion({
+                          suggestion,
+                          index,
+                          itemProps: getItemProps({ item: suggestion.name }),
+                          highlightedIndex,
+                          selectedItem,
+                        }),
+                      )}
+                    </Paper>
+                  ) : null}
+                </div>
+              )}
+            </Downshift>
+          )}}
+      </Query>
     );
   }
 }
 
-DownshiftMultiple.propTypes = {
+TagSelect.propTypes = {
   setTags: PropTypes.func.isRequired,
   selectedTags: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
@@ -226,4 +205,4 @@ const styles = theme => ({
   },
 });
 
-export default withStyles(styles)(DownshiftMultiple);
+export default withStyles(styles)(TagSelect);

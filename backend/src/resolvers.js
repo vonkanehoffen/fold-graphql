@@ -12,7 +12,10 @@ const resolvers = {
 
     getAllMyFolds: (_, args, context) => {
       return db.getFoldsByOwner(getOwnerId(context))
-    }
+    },
+    getAllMyTags: (_, args, context) => {
+      return db.getTagsByOwner(getOwnerId(context))
+    },
   },
   Mutation: {
     createFold: (_, {title, address, tags}, context) =>
