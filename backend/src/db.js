@@ -212,7 +212,7 @@ export const updateFold = (id, ownerId, title, address, tags, context) => {
  * @param ownerId
  * @param context
  */
-export const deleteFold = (id, ownerId, context) => dynamoDB.delete({
+export const deleteFold = (id, ownerId) => dynamoDB.delete({
   TableName: 'folds',
   Key: {
     id, ownerId,

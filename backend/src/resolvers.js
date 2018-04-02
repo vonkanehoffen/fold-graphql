@@ -11,7 +11,6 @@ const resolvers = {
     getAuthor: (_, {id}) => authorsDB.find(a => a.id == id),
 
     getAllMyFolds: (_, args, context) => {
-      console.log('owner:', getOwnerId(context))
       return db.getFoldsByOwner(getOwnerId(context))
     }
   },
@@ -20,8 +19,8 @@ const resolvers = {
       db.createFold(title, address, tags, context),
     updateFold: (_, {id, ownerId, title, address, tags}, context) =>
       db.updateFold(id, ownerId, title, address, tags, context).then(data => data.Attributes),
-    deleteFold: (_, {id, ownerId}, context) =>
-      db.deleteFold(id, ownerId, context),
+    deleteFold: (_, {id}, context) =>
+      db.deleteFold(id, getOwnerId(context)).then(data => ({id})),
   },
   Fold: {
     // TODO: Figure out the gest way of doing this.

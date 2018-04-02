@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-// import FoldRemove from '../containers/FoldRemove'
+import DeleteFold from '../containers/DeleteFold'
 
 const Card = styled.div`
   background:palevioletred;
@@ -32,7 +32,7 @@ const FoldCard = ({fold}) => {
           {/*Owner: {fold.owner}*/}
         </div>
       </h3>
-      {/*<FoldRemove foldId={fold.id}/>*/}
+      <DeleteFold id={fold.id}/>
     </Card>
   )
 }

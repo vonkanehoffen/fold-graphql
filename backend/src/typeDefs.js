@@ -25,7 +25,7 @@ const typeDefs = `
       tags: [String]
     ): Fold
 
-    deleteFold(id: ID!, ownerId: String!): Fold
+    deleteFold(id: ID!): Fold
   }
   type Tag {
     name: String!
