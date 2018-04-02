@@ -173,8 +173,7 @@ class DownshiftMultiple extends React.Component {
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
-                placeholder: 'Select multiple countries',
-                id: 'integration-downshift-multiple',
+                placeholder: 'Select tags',
               }),
             })}
             {isOpen ? (

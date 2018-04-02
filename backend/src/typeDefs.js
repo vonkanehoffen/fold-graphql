@@ -19,7 +19,6 @@ const typeDefs = `
 
     updateFold(
       id: ID!
-      ownerId: String!
       title: String
       address: String
       tags: [String]

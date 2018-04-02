@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import UpdateFold from '../containers/UpdateFold'
 import DeleteFold from '../containers/DeleteFold'
 
 const Card = styled.div`
@@ -33,6 +34,7 @@ const FoldCard = ({fold}) => {
         </div>
       </h3>
       <DeleteFold id={fold.id}/>
+      <UpdateFold fold={fold}/>
     </Card>
   )
 }

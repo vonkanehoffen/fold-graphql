@@ -17,8 +17,8 @@ const resolvers = {
   Mutation: {
     createFold: (_, {title, address, tags}, context) =>
       db.createFold(title, address, tags, context),
-    updateFold: (_, {id, ownerId, title, address, tags}, context) =>
-      db.updateFold(id, ownerId, title, address, tags, context).then(data => data.Attributes),
+    updateFold: (_, {id, title, address, tags}, context) =>
+      db.updateFold(id, getOwnerId(context), title, address, tags).then(data => data.Attributes),
     deleteFold: (_, {id}, context) =>
       db.deleteFold(id, getOwnerId(context)).then(data => ({id})),
   },
