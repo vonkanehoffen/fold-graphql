@@ -33,21 +33,12 @@ const client = new ApolloClient({
 class App extends Component {
 
   state = {
-    session: SESSION_LOADING
+    session: SESSION_LOADING,
+    filterTerms: [],
   }
 
   setSession = (session) => this.setState({session})
-
-  // setSession = async () => {
-  //   let session
-  //   try {
-  //     session = await Auth.currentSession()
-  //     console.log(session)
-  //   } catch(e) {
-  //     session = NOT_LOGGED_IN
-  //   }
-  //   this.setState({ session })
-  // }
+  setFilter = (filterTerms) => this.setState({filterTerms})
 
   componentDidMount() {
     Auth.currentSession()
@@ -56,7 +47,7 @@ class App extends Component {
   }
 
   render() {
-    const { session } = this.state
+    const { session, filterTerms } = this.state
 
     if(session === SESSION_LOADING) return (
       <Loading/>
@@ -70,9 +61,14 @@ class App extends Component {
       <ApolloProvider client={client}>
         <BrowserRouter>
           <div id="App">
-            <NavBar session={session} setSession={this.setSession}/>
+            <NavBar
+              session={session}
+              setSession={this.setSession}
+              filterTerms={filterTerms}
+              setFilter={this.setFilter}
+            />
             <Switch>
-              <Route path="/" render={props => <Home {...{session}} {...props}/>}/>{/* Logged in users */}
+              <Route path="/" render={props => <Home {...{session, filterTerms}} {...props}/>}/>
               <Route component={NotFound} />
             </Switch>
           </div>

@@ -21,7 +21,7 @@ export const GET_FOLDS = gql`
     }
   }
 `
-const Home = ({session}) => {
+const Home = ({session, filterTerms}) => {
   return (
     <div>
       <h1>Home</h1>
@@ -33,7 +33,13 @@ const Home = ({session}) => {
           console.log(data)
           return (
             <div>
-              {data.getAllMyFolds && data.getAllMyFolds.map(f => <FoldCard fold={f} key={f.id}/> )}
+              {data.getAllMyFolds
+                // Filter folds out that don't match every supplied term
+                .filter(fold => filterTerms.every(term =>
+                  fold.tags.find(tag => tag.name === term)
+                ))
+                .map(f => <FoldCard fold={f} key={f.id}/> )
+              }
             </div>
           )
         }}
@@ -45,6 +51,7 @@ const Home = ({session}) => {
 
 Home.propTypes = {
   session: PropTypes.object.isRequired,
+  filterTerms: PropTypes.array.isRequired,
 }
 
 export default Home
